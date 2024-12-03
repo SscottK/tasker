@@ -16,7 +16,7 @@
 <ul>
     {% for checklist in checklists %}
     <a href="{% url 'checklist-detail' checklist.id %}">{{ checklist.list_name }}</a>
-        <li> Owner: {{ checklist.owner }} - Status: {{ checklist.get_status_display }} - Id: {{ checklist.id }}</li>
+        <li> Owner: {{ checklist.owner }} - Status: {{ checklist.get_status_display }}</li>
     {% empty %}
         <li>No checklists available.</li>
     {% endfor %}

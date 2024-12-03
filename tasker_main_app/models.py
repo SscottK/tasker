@@ -50,7 +50,7 @@ class Listitem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     #changing string method to display object name when printing the object to console
     def __str__(self):
-        return self.list_name
+        return self.step_name
 
 #roles to be assigned when adding users to a checklist
 ROLE_CHOICES = (

@@ -2,16 +2,35 @@
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/checklists/checklist-detail.css' %}" />
 {% endblock %}
+
 <section class="checklist-container">
   <div class="checklist-details">
     {% if checklist %}  
     <h1>{{ checklist.list_name }}</h1>
     <h2>This list is currently {{ checklist.get_status_display }}</h2>
+    <p>Owner: {{ checklist.owner }}</p>
+    <p>Created: {{ checklist.created_at }}</p>
+    <p>Updated: {{ checklist.updated_at }}</p>
 
     <div class="checklist-actions">
         <a href="{% url 'checklist-update' checklist.id %}" class="btn warn">Edit</a>
         <a href="{% url 'checklist-delete' checklist.id %}" class="btn danger">Delete</a>
     </div>
+
+    <h3>Tasks</h3>
+    <ul>
+      {% for item in checklist.listitem_set.all %}
+        <li>
+          <strong>{{ item.step_name }}</strong> - Status: {{ item.get_status_display }} 
+          - Priority: {{ item.high_priority|yesno:"High,Low" }}
+        </li>
+      {% empty %}
+        <li>No tasks yet. Add a task!</li>
+      {% endfor %}
+    </ul>
+
+    <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
+
       {% else %}
         <p>No checklist found.</p>
         {% endif %}

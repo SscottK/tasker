@@ -9,5 +9,6 @@ urlpatterns = [
     path('checklists/<int:checklist_id>/', views.checklist_detail, name='checklist-detail'),
     path('checklists/<int:pk>/update/', views.ChecklistUpdate.as_view(), name='checklist-update'),
     path('checklists/<int:pk>/delete/', views.ChecklistDelete.as_view(), name='checklist-delete'),
+    path('checklists/<int:checklist_id>/add-task', views.add_task_to_checklist, name='add-task')
 
 ]
