@@ -14,7 +14,7 @@ class ChecklistCreate(CreateView):
     model = Checklist
     form_class = ChecklistForm
     template_name = 'main_app/checklist_form.html'
-    success_url = '/checklists/checklist_id'
+    success_url = '/checklists/'
 
 #view of all checklists
 def checklist_index(request):
