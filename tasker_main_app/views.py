@@ -46,3 +46,4 @@ class ChecklistUpdate(UpdateView):
 class ChecklistDelete(DeleteView):
     model = Checklist
     success_url = '/checklists/'
+    template_name = 'main_app/checklist_confirm_delete.html'
