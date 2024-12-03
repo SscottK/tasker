@@ -21,7 +21,7 @@ class Checklist(models.Model):
         choices=STATUS_CHOICES,
         default=STATUS_CHOICES[0][0]
     )
-    #The owner of the Checklis
+    #The owner of the Checklist
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
     #Keeping track or creation and updates date and time (to implement leaderboard feature later)
     created_at = models.DateTimeField(auto_now_add=True)
