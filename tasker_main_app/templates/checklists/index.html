@@ -10,11 +10,12 @@
   <h1>All Checklists</h1>
 </section>
 
+
   
 
 <ul>
     {% for checklist in checklists %}
-        <li> Owner: {{ checklist.owner }} - {{ checklist.list_name }} - Status: {{ checklist.get_status_display }}</li>
+        <li> Owner: {{ checklist.owner }} - {{ checklist.list_name }} - Status: {{ checklist.get_status_display }} - Id: {{ checklist.id }}</li>
     {% empty %}
         <li>No checklists available.</li>
     {% endfor %}

@@ -1,0 +1,19 @@
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/checklists/checklist-detail.css' %}" />
+{% endblock %}
+<section class="checklist-container">
+  <div class="checklist-details">
+    {% if checklist %}  
+    <h1>{{ checklist.list_name }}</h1>
+    <h2>This list is currently {{ checklist.get_status_display }}</h2>
+
+    <div class="checklist-actions">
+        <a href="{% url 'checklist-update' checklist.id %}" class="btn warn">Edit</a>
+        <a href="{% url 'checklist-delete' checklist.id %}" class="btn danger">Delete</a>
+    </div>
+      {% else %}
+        <p>No checklist found.</p>
+        {% endif %}
+  </div>
+</section>
