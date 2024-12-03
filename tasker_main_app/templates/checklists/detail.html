@@ -23,6 +23,7 @@
         <li>
           <strong>{{ item.step_name }}</strong> - Status: {{ item.get_status_display }} 
           - Priority: {{ item.high_priority|yesno:"High,Low" }}
+          <a href="{% url 'edit-task' checklist_id=checklist.id pk=item.id %}" class="btn edit">Edit Task</a>  
         </li>
       {% empty %}
         <li>No tasks yet. Add a task!</li>

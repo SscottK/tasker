@@ -68,3 +68,12 @@ def add_task_to_checklist(request, checklist_id):
         'form': form,
         'checklist': checklist,
     })    
+
+class ListitemUpdate(UpdateView):
+    model = Listitem
+    form_class = ListitemForm
+    template_name = 'checklists/edit_task.html'
+
+    def get_success_url(self):
+        checklist_id = self.object.checklist.id
+        return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
