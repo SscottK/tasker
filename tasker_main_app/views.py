@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import CreateView
+from django.views.generic.edit import CreateView
 from .models import Checklist
 from .forms import ChecklistForm
 
@@ -12,12 +12,11 @@ def home(request):
 class ChecklistCreate(CreateView):
     model = Checklist
     form_class = ChecklistForm
-    template_name = 'checklists/checklist_form.html'
-    success_url = 'checklists/'
+    template_name = 'main_app/checklist_form.html'
+    success_url = '/checklists/'
 
 
 def checklist_index(request):
-
     checklists = Checklist.objects.all()
 
     return render(request, 'checklists/index.html', {'checklists': checklists})

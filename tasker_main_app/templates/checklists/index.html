@@ -1,19 +1,26 @@
-{% extends 'base.html' %} 
-{% load static %} 
-{% block head %}
-<link rel="stylesheet" href="{% static 'css/checklists/checklist-index.css' %}"/>
-{% endblock %} 
 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklists</title>
+</head>
+<body>
 <section class="page-header">
-  <h1>List of Checklists</h1>
+  <h1>All Checklists</h1>
 </section>
 
-<h1>My Checklists</h1>
+  
 
 <ul>
     {% for checklist in checklists %}
-        <li>{{ checklist.list_name }} - Status: {{ checklist.get_status_display }}</li>
+        <li> Owner: {{ checklist.owner }} - {{ checklist.list_name }} - Status: {{ checklist.get_status_display }}</li>
     {% empty %}
         <li>No checklists available.</li>
     {% endfor %}
 </ul>
+
+<a href="{% url 'checklist-create' %}">Create a New Checklist</a>
+
+</body>
+</html>

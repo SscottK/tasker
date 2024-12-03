@@ -1,21 +1,32 @@
-{% extends 'base.html' %} 
+
 {% load static %} 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/form.css' %}" />
+<link rel="stylesheet" href="{% static 'css/checklist_form.css' %}" />
 {% endblock %} 
 {% block content %}
 
 <div class="page-header">
   <h1>Create a Checklist</h1>
-  <img src/>
 </div>
 
 <form action="" method="post" class="form-container">
   {% csrf_token %}
   <table>
-    {{ form.as_table }}
+    <tr>
+      <td>{{ form.list_name.label }}</td>
+      <td>{{ form.list_name }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.status.label }}</td>
+      <td>{{ form.status }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.owner.label }}</td>
+      <td>{{ form.owner }}</td>
+    </tr>
   </table>
   <button type="submit" class="btn submit">Submit!</button>
 </form>
+
 
 {% endblock %}
