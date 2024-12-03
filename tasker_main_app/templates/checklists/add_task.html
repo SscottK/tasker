@@ -1,0 +1,13 @@
+
+{% block content %}
+<h1>Add Task to "{{ checklist.list_name }}"</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Add Task</button>
+</form>
+
+<a href="{% url 'checklist-detail' checklist.id %}">Back to Checklist</a>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+
+{% load static %} 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/checklist_form.css' %}" />
+{% endblock %} 
+{% block content %}
+
+<div class="page-header">
+  <h1>{% if object %} Edit Checklist 
+        {% else %} 
+        Create a Checklist 
+      {% endif %}</h1>
+</div>
+
+<form action="" method="post" class="form-container">
+  {% csrf_token %}
+  <table>
+    <tr>
+      <td>{{ form.list_name.label }}</td>
+      <td>{{ form.list_name }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.status.label }}</td>
+      <td>{{ form.status }}</td>
+    </tr>
+    <tr>
+      <td>{{ form.owner.label }}</td>
+      <td>{{ form.owner }}</td>
+    </tr>
+  </table>
+  <button type="submit" class="btn submit">Submit!
+    {% if object %} Update Checklist {% else %} Create Checklist {% endif %}
+  </button>
+</form>
+
+
+{% endblock %}
