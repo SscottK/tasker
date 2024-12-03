@@ -6,7 +6,10 @@
 {% block content %}
 
 <div class="page-header">
-  <h1>Create a Checklist</h1>
+  <h1>{% if object %} Edit Checklist 
+        {% else %} 
+        Create a Checklist 
+      {% endif %}</h1>
 </div>
 
 <form action="" method="post" class="form-container">
@@ -25,7 +28,9 @@
       <td>{{ form.owner }}</td>
     </tr>
   </table>
-  <button type="submit" class="btn submit">Submit!</button>
+  <button type="submit" class="btn submit">Submit!
+    {% if object %} Update Checklist {% else %} Create Checklist {% endif %}
+  </button>
 </form>
 
 

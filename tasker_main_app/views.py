@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Checklist
@@ -36,6 +37,10 @@ def checklist_detail(request, checklist_id):
 class ChecklistUpdate(UpdateView):
     model = Checklist
     fields = ['list_name', 'status']
+    template_name = 'main_app/checklist_form.html'
+
+    def get_success_url(self) -> str:
+        return reverse_lazy('checklist-detail', kwargs={'checklist_id': self.object.id})
 
 #delete checklist
 class ChecklistDelete(DeleteView):
