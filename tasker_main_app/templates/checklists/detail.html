@@ -22,7 +22,7 @@
     <ul>
       {% for item in checklist.listitem_set.all %}
         <li>
-          <strong>{{ item.step_name }}</strong> - Status: {{ item.get_status_display }} 
+          <strong>{{ item.step_name }}</strong> - Status: {{ item.get_status_display }} - Description: {{ item.description }}
           - Priority: {{ item.high_priority|yesno:"High,Low" }}
           <a href="{% url 'edit-task' checklist_id=checklist.id pk=item.id %}" class="btn edit">Edit Task</a>  
         </li>
