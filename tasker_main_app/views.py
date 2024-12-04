@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Checklist, Listitem
 from .forms import ChecklistForm, ListitemForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -26,8 +27,9 @@ class ChecklistCreate(CreateView):
         return reverse_lazy('checklist-index')
 
 #view of all checklists
+# @login_required
 def checklist_index(request):
-    checklists = Checklist.objects.all()
+    checklists = request.user.checklist_set.all()
 
     return render(request, 'checklists/index.html', {'checklists': checklists})
 
