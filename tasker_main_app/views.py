@@ -27,7 +27,7 @@ class ChecklistCreate(CreateView):
 
 #view of all checklists
 def checklist_index(request):
-    checklists = Checklist.objects.all()
+    checklists = Checklist.objects.filter(owner=request.user)
 
     return render(request, 'checklists/index.html', {'checklists': checklists})
 
