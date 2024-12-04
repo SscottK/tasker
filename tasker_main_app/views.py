@@ -16,7 +16,14 @@ class ChecklistCreate(CreateView):
     model = Checklist
     form_class = ChecklistForm
     template_name = 'main_app/checklist_form.html'
-    success_url = '/checklists/'
+    #success_url = '/checklists/'
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('checklist-index')
 
 #view of all checklists
 def checklist_index(request):
@@ -70,38 +77,11 @@ def add_task_to_checklist(request, checklist_id):
         'checklist': checklist,
     })    
 
+class ListitemUpdate(UpdateView):
+    model = Listitem
+    form_class = ListitemForm
+    template_name = 'checklists/edit_task.html'
 
-
-
-#mailer
-#try
-#get all reminders that need to be sent out in the next 30 mins
-#for all reminders
-#if reminder has not been sent
-#send reminder
-#mark reminder as sent
-#when done reply with ok it worked
-#except
-#if an error occurs reply with error
-
-
-#Create reminder view
-#define create reaminder args. request, user_id, list_item_id
-#assign reminder form request to form variable
-#check to see if form is_valid()
-    #create new reminder variable but do not save anything to it
-    #new reminder = form.save(commit=false)
-    #Add user_id to new reminder
-    #Add list_item_id to new reminder
-    #save new reminder
-#redirect to list detail
-
-
-
-
-#Edit reminder view
-
-#reminders index view
-
-#Delete reminder view
-
+    def get_success_url(self):
+        checklist_id = self.object.checklist.id
+        return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
