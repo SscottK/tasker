@@ -10,7 +10,6 @@
     <h2>This list is currently {{ checklist.get_status_display }}</h2>
     <p>Owner: {{ checklist.owner }}</p>
     <p>User ID: {{ checklist.owner.id }}</p>
-    <p>Your User ID: {{ request.user.id }}</p>
 
     <p>Created: {{ checklist.created_at }}</p>
     <p>Updated: {{ checklist.updated_at }}</p>
