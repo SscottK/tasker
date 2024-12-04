@@ -27,7 +27,7 @@ class ChecklistCreate(CreateView):
 
 #view of all checklists
 def checklist_index(request):
-    checklists = Checklist.objects.all()
+    checklists = Checklist.objects.filter(owner=request.user)
 
     return render(request, 'checklists/index.html', {'checklists': checklists})
 
@@ -67,7 +67,7 @@ def add_task_to_checklist(request, checklist_id):
         if form.is_valid():
             listitem = form.save(commit=False)
             listitem.checklist = checklist
-            listitem.save
+            listitem.save()
             return redirect('checklist-detail', checklist_id=checklist.id)
     else:
         form = ListitemForm()
@@ -81,6 +81,15 @@ class ListitemUpdate(UpdateView):
     model = Listitem
     form_class = ListitemForm
     template_name = 'checklists/edit_task.html'
+
+    def get_success_url(self):
+        checklist_id = self.object.checklist.id
+        return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
+
+
+class ListitemDelete(DeleteView):
+    model = Listitem
+    template_name = 'main_app/task_confirm_delete.html'
 
     def get_success_url(self):
         checklist_id = self.object.checklist.id
