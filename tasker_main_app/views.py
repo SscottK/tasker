@@ -16,7 +16,14 @@ class ChecklistCreate(CreateView):
     model = Checklist
     form_class = ChecklistForm
     template_name = 'main_app/checklist_form.html'
-    success_url = '/checklists/'
+    #success_url = '/checklists/'
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('checklist-index')
 
 #view of all checklists
 def checklist_index(request):
