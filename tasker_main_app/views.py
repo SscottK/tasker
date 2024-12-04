@@ -17,8 +17,8 @@ from django.core.mail import send_mail
 from django.contrib.admin.views.decorators import staff_member_required
 import datetime
 
-# Create your views here.
 
+# Create your views here.
 @login_required
 def home(request):
     if 'logout' in request.GET:
@@ -86,6 +86,8 @@ def checklist_index(request):#Do we need this?
     shared_checklists = Checklist.objects.filter(
         id__in=List_user.objects.filter(user=request.user).values_list('checklist_id', flat=True)
     )
+
+
 
     return render(request, 'checklists/index.html', {
         'owned_checklists': owned_checklists,
