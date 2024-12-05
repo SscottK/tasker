@@ -1,0 +1,19 @@
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/checklists/checklist_form.css' %}" />
+{% endblock %}
+
+{% block content %}
+<h2>Edit Task: {{ object.step_name }}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn submit">Save Changes</button>
+</form>
+
+<div class="listitem-actions">
+  <a href="{% url 'delete-task' checklist_id=object.checklist.id pk=object.id %}" class="btn danger">Delete</a></div>
+
+<a href="{% url 'checklist-detail' checklist_id=object.checklist.id %}">Back to Checklist</a>
+{% endblock %}

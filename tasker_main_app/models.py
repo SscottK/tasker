@@ -20,7 +20,7 @@ class Checklist(models.Model):
         choices=STATUS_CHOICES,
         default=STATUS_CHOICES[0][0]
     )
-    #The owner of the Checklis
+    #The owner of the Checklist
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
     #Keeping track or creation and updates date and time (to implement leaderboard feature later)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -50,7 +50,7 @@ class Listitem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     #changing string method to display object name when printing the object to console
     def __str__(self):
-        return self.list_name
+        return self.step_name
 
 #roles to be assigned when adding users to a checklist
 ROLE_CHOICES = (
