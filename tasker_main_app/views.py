@@ -20,7 +20,7 @@ class ChecklistCreate(CreateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        return super().form_valid(form)
+        return super().form_valid(form) # Calls form.save() internally
     
     def get_success_url(self):
         return reverse_lazy('checklist-index')
