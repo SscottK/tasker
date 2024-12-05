@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,17 +8,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <title>Tasker</title>
-      {% block title %} 
-      {% endblock %}
+    {% block title %} 
+    {% endblock %}
   </head>
   <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="/checklists">All Checklists</a></li>
-                <li><a href="{% url 'checklist-create' %}">Create a Checklist</a></li>
-            </ul>    
-        </nav>
+      <nav>
+        <ul>
+          <li><a href="/checklists">All Checklists</a></li>
+          <li><a href="{% url 'checklist-create' %}">Create a Checklist</a></li>
+          {% if user.is_authenticated %}
+            <form id="logout-form" method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit">Log out</button>
+            </form>
+          {% else %}
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'home' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </nav>
     </header>
     {% block body %} 
     {% endblock %}
