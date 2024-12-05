@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
 #import reminder form
 
@@ -7,6 +10,24 @@ from django.contrib.auth.views import LoginView
 
 def home(request):
     return render(request, 'welcome.html')
+
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        # create a user form object
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # add  user to the database
+            user = form.save()
+            # log  user in
+            login(request, user)
+            return redirect('cat-index')
+        else:
+            error_message = 'Invalid sign up - try again'
+    # render signup.html with an empty form
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'signup.html', context)
 
 
 #create cron job to call mailer view
