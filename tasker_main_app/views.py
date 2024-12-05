@@ -21,7 +21,7 @@ def signup(request):
             user = form.save()
             # log  user in
             login(request, user)
-            return redirect('cat-index')
+            return redirect('welcome')
         else:
             error_message = 'Invalid sign up - try again'
     # render signup.html with an empty form
