@@ -2,9 +2,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.http import HttpResponse
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Checklist, Listitem
-from .forms import ChecklistForm, ListitemForm
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import ListView
+from .models import Checklist, Listitem, Reminder
+from .forms import ChecklistForm, ListitemForm, ReminderForm
 
 # Create your views here.
 
@@ -110,6 +111,55 @@ class ListitemDelete(DeleteView):
 
 #Create reminder view
 #define create reaminder args. request, user_id, list_item_id
+# def create_reminder(request,checklist_id, list_item_id):
+#     #get specific list item remindeer is being created for
+#     list_item = get_object_or_404(Listitem, id=list_item_id)
+#     checklist = get_object_or_404(Checklist, id=checklist_id) 
+#     form = ReminderForm()
+#    #check to see if request method is post
+#     if request.method == 'POST':
+#         #creat from instance
+#         form = ReminderForm(request.POST)
+#         #check to see if form is_valid()
+#         if form.is_valid():            
+#             #create new reminder variable but do not save anything to it
+#             reminder = form.save(commit=False)            
+#             #Add user_id to new reminder
+#             reminder.user = request.user
+#             #Add list_item_id to new reminder
+#             reminder.list_item = list_item
+#             #save new reminder
+#             reminder.save()
+#             #redirect to list detail
+#             return redirect('checklist-detail', checklist_id=checklist.id)
+#         else:
+#             form = ReminderForm()
+
+#     return render(request, 'reminders/new_reminder.html', {
+#         'form': form,
+#         'list_item': list_item,
+#         'checklist': checklist
+#     })
+
+class CreateReminderView(FormView):
+    template_name = 'new_reminder.html'
+    form_class = ReminderForm
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateReminderView, self).get_form_kwargs()
+        kwargs['checklist_id'] = self.request.checklist_id
+        kwargs['list_item_id'] = self.request.list_item_id
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['list_item'] = get_object_or_404(Listitem, id=kwargs['list_item_id'])
+        context['checklist'] = get_object_or_404(Checklist, id=kwargs['checklist_id'])
+        return context
+
+
+#Edit reminder view
+#define create reaminder args. request, user_id, list_item_id
 #assign reminder form request to form variable
 #check to see if form is_valid()
     #create new reminder variable but do not save anything to it
@@ -119,11 +169,10 @@ class ListitemDelete(DeleteView):
     #save new reminder
 #redirect to list detail
 
-
-
-
-#Edit reminder view
-
 #reminders index view
+def reminder_index(request):
+    reminders = Reminder.objects.filter(user=request.user)
+
+    return render(request, 'reminders/index.html', {'reminders': reminders})
 
 #Delete reminder view

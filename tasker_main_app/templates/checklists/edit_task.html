@@ -13,7 +13,8 @@
 </form>
 
 <div class="listitem-actions">
-  <a href="{% url 'delete-task' checklist_id=object.checklist.id pk=object.id %}" class="btn danger">Delete</a></div>
+  <a href="{% url 'delete-task' checklist_id=object.checklist.id pk=object.id %}" class="btn danger">Delete</a>
+</div>
 
 <a href="{% url 'checklist-detail' checklist_id=object.checklist.id %}">Back to Checklist</a>
 {% endblock %}

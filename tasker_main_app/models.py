@@ -73,7 +73,7 @@ class List_user(models.Model):
     checklist = models.ForeignKey(Checklist, on_delete=models.CASCADE)
     #changing string method to display object name when printing the object to console
     def __str__(self):
-        return self.list_name
+        return self.user
 
 #Reminders for list items
 class Reminder(models.Model):
@@ -87,4 +87,4 @@ class Reminder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     #changing string method to display object name when printing the object to console
     def __str__(self):
-        return self.list_name
+        return self.user

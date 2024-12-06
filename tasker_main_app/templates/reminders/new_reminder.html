@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% load render_form from formsetify %}
+{% block content %}
+<h1>Create a reminder for "{{ list_item.step_name }}"</h1>
+
+<django-formset endpoint="{{request.path}}" csrf-token="{{csrf_token}}">
+  
+    
+    {% render_form form "bootstrap" field_classes="mb-2" %}
+    <button type="submit">Create reminder</button>
+  
+</django-formset>
+<a href="{% url 'checklist-detail' checklist.id %}">Back to Checklist</a>
+
+{% endblock %}
