@@ -1,10 +1,10 @@
-
+{% extends 'base.html' %}
 {% load static %} 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/checklist_form.css' %}" />
-{% endblock %} 
-{% block content %}
+{% endblock %}
 
+{% block content %}
 <div class="page-header">
   <h1>{% if object %} Edit Checklist 
         {% else %} 
@@ -32,6 +32,5 @@
     {% if object %} Update Checklist {% else %} Create Checklist {% endif %}
   </button>
 </form>
-
 
 {% endblock %}
