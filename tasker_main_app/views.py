@@ -1,5 +1,8 @@
+#import reminder form
 
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -10,6 +13,25 @@ from .forms import ChecklistForm, ListitemForm
 
 def home(request):
     return render(request, 'welcome.html')
+
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        # create a user form object
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # add  user to the database
+            user = form.save()
+            # log  user in
+            login(request, user)
+            return redirect('welcome')
+        else:
+            error_message = 'Invalid sign up - try again'
+    # render signup.html with an empty form
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'signup.html', context)
+
 
 #checklist create view
 class ChecklistCreate(CreateView):

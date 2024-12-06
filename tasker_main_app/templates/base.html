@@ -15,6 +15,9 @@
   </head>
   <body>
     <header>
+
+    {% block content %}
+
       <nav>
         <ul>
           <li><a href="/checklists">All Checklists</a></li>
@@ -32,7 +35,7 @@
         </ul>
       </nav>
     </header>
-    {% block content %} 
+
     {% endblock %}
   </body>
 </html>
