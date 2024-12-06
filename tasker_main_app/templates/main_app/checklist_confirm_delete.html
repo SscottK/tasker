@@ -1,6 +1,12 @@
+{% extends 'base.html' %}
 {% load static %} 
-{% block content %}
 
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/checklists/checklist_form.css' %}" />
+{% endblock %}
+
+{% block content %}
 <div class="page-header">
   <h1>Delete Checklist?</h1>
 </div>
