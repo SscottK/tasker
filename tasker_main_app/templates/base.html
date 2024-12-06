@@ -14,13 +14,14 @@
 
   </head>
   <body>
+
     <header>
 
-    {% block content %}
+    
 
       <nav>
         <ul>
-          <li><a href="/checklists">All Checklists</a></li>
+          <li><a href="/checklists">My Checklists</a></li>
           <li><a href="{% url 'checklist-create' %}">Create a Checklist</a></li>
           {% if user.is_authenticated %}
             <form id="logout-form" method="post" action="{% url 'logout' %}">
@@ -35,6 +36,7 @@
         </ul>
       </nav>
     </header>
+    {% block content %}
 
     {% endblock %}
   </body>
