@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Checklist, Listitem
-from .forms import ChecklistForm, ListitemForm
+from .forms import ChecklistForm, ListitemForm, UserEditForm
 
 # Create your views here.
 
@@ -127,6 +127,18 @@ class ListitemDelete(DeleteView):
 #@login_required
 def user_detail(request):
     return render(request, 'users/user_detail.html', {'user': request.user})
+
+
+#@login_required
+def edit_user(request):
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_detail')  # Redirect to the user detail page
+    else:
+        form = UserEditForm(instance=request.user)  # Pre-fill with the current user's data
+    return render(request, 'users/edit_user.html', {'form': form})
 
 
 #mailer
