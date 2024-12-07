@@ -6,6 +6,7 @@
   <p>Sign up now to start creating and managing your tasks!</p>
 
   {% if user.is_authenticated %}
+                <a href="{% url 'user_detail' %}">My Profile</a>
                 <a href="{% url 'logout' %}">Log Out</a>
             {% else %}
                 <a href="{% url 'login' %}">Log In</a>
