@@ -7,6 +7,7 @@ from .views import ChecklistCreate
 urlpatterns = [
   path('', views.home, name='welcome'),
   path('signup/', views.signup, name='signup'),
+  path('profile/', views.user_detail, name='user_detail'),
   path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
   path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
   path('checklists/create/', views.ChecklistCreate.as_view(), name='checklist-create'),
