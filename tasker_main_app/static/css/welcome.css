@@ -3,3 +3,10 @@
     justify-content: space-between;
     margin-top: 20px;
 }
+.tasks {
+    border-radius: 1px black;
+}
+
+.checklists {
+    border-radius: 1px black;
+}
