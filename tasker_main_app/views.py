@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.urls import reverse_lazy
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Checklist, Listitem
 from .forms import ChecklistForm, ListitemForm
@@ -12,7 +12,8 @@ from .forms import ChecklistForm, ListitemForm
 # Create your views here.
 
 def home(request):
-    return render(request, 'welcome.html')
+    checklists = Checklist.objects.filter(owner=request.user)
+    return render(request, 'welcome.html', {'checklists': checklists})
 
 def signup(request):
     error_message = ''
@@ -56,12 +57,12 @@ def checklist_index(request):
 
 #view of one checklist
 def checklist_detail(request, checklist_id):
-    checklist = get_object_or_404(Checklist, id=checklist_id)
-    listitems = checklist.listitem_set.all()
+    checklist = Checklist.objects.get(id=checklist_id)
+    tasks = checklist.listitem_set.all()
 
     return render(request, 'checklists/detail.html', {
         'checklist': checklist,
-        'listitems': listitems,
+        'tasks': tasks,
     })
 
 
@@ -106,7 +107,7 @@ class ListitemUpdate(UpdateView):
 
     def get_success_url(self):
         checklist_id = self.object.checklist.id
-        return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
+        return reverse_lazy('welcome')
 
 
 class ListitemDelete(DeleteView):
@@ -116,6 +117,22 @@ class ListitemDelete(DeleteView):
     def get_success_url(self):
         checklist_id = self.object.checklist.id
         return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
+
+
+def get_checklist_tasks(request, checklist_id):
+    checklist = get_object_or_404(Checklist, id=checklist_id)
+    tasks = checklist.listitem_set.all()
+
+    task_data = []
+    for task in tasks:
+        task_data.append({
+            'step_name': task.step_name,
+            'status': task.get_status_display(),
+            'description': task.description,
+            'priority': "High" if task.high_priority else "Low",
+            'edit_url': f"{request.scheme}://{request.get_host()}/checklists/{task.checklist.id}/edit-task/{task.id}/",
+        })
+    return JsonResponse({'tasks': task_data})    
 
 
 #mailer
