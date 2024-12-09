@@ -19,7 +19,7 @@
         <a href="{% url 'checklist-delete' checklist.id %}" class="btn danger">Delete</a>
     </div>
 
-    <h3>Tasks</h3>
+    <h3>Tasks for "{{ checklist.list_name }}"</h3>
     <ul>
       {% for item in checklist.listitem_set.all %}
         <li>

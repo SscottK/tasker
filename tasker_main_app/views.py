@@ -5,7 +5,7 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth import login
 #from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Checklist, Listitem
 from .forms import ChecklistForm, ListitemForm, UserEditForm
@@ -13,7 +13,8 @@ from .forms import ChecklistForm, ListitemForm, UserEditForm
 # Create your views here.
 
 def home(request):
-    return render(request, 'welcome.html')
+    checklists = Checklist.objects.filter(owner=request.user)
+    return render(request, 'welcome.html', {'checklists': checklists})
 
 def signup(request):
     error_message = ''
@@ -62,12 +63,12 @@ def checklist_index(request):
 
 #view of one checklist
 def checklist_detail(request, checklist_id):
-    checklist = get_object_or_404(Checklist, id=checklist_id)
-    listitems = checklist.listitem_set.all()
+    checklist = Checklist.objects.get(id=checklist_id)
+    tasks = checklist.listitem_set.all()
 
     return render(request, 'checklists/detail.html', {
         'checklist': checklist,
-        'listitems': listitems,
+        'tasks': tasks,
     })
 
 
@@ -112,7 +113,7 @@ class ListitemUpdate(UpdateView):
 
     def get_success_url(self):
         checklist_id = self.object.checklist.id
-        return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
+        return reverse_lazy('welcome')
 
 
 class ListitemDelete(DeleteView):
@@ -123,6 +124,22 @@ class ListitemDelete(DeleteView):
         checklist_id = self.object.checklist.id
         return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
 
+
+
+def get_checklist_tasks(request, checklist_id):
+    checklist = get_object_or_404(Checklist, id=checklist_id)
+    tasks = checklist.listitem_set.all()
+
+    task_data = []
+    for task in tasks:
+        task_data.append({
+            'step_name': task.step_name,
+            'status': task.get_status_display(),
+            'description': task.description,
+            'priority': "High" if task.high_priority else "Low",
+            'edit_url': f"{request.scheme}://{request.get_host()}/checklists/{task.checklist.id}/edit-task/{task.id}/",
+        })
+    return JsonResponse({'tasks': task_data})    
 
 #@login_required
 def user_detail(request):
@@ -139,6 +156,7 @@ def edit_user(request):
     else:
         form = UserEditForm(instance=request.user)  # Pre-fill with the current user's data
     return render(request, 'users/edit_user.html', {'form': form})
+
 
 
 #mailer
