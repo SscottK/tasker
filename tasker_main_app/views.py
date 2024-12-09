@@ -1,13 +1,14 @@
 #import reminder form
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserCreationForm
 from django.contrib.auth import login
+#from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Checklist, Listitem
-from .forms import ChecklistForm, ListitemForm
+from .forms import ChecklistForm, ListitemForm, UserEditForm
 
 # Create your views here.
 
@@ -18,18 +19,23 @@ def home(request):
 def signup(request):
     error_message = ''
     if request.method == 'POST':
-        # create a user form object
-        form = UserCreationForm(request.POST)
+        # Create a user form object with POST data
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # add  user to the database
-            user = form.save()
-            # log  user in
+            # Add the user to the database
+            user = form.save(commit=False)
+            user.email = form.cleaned_data.get('email')  # Save the email
+            user.save()
+            # Log the user in
             login(request, user)
-            return redirect('welcome')
+            return redirect('welcome')  # Redirect to a welcome page or dashboard
         else:
             error_message = 'Invalid sign up - try again'
-    # render signup.html with an empty form
-    form = UserCreationForm()
+    else:
+        # Render signup.html with an empty form
+        form = CustomUserCreationForm()
+    
+    # Render the signup page with form and potential error message
     context = {'form': form, 'error_message': error_message}
     return render(request, 'signup.html', context)
 
@@ -119,6 +125,7 @@ class ListitemDelete(DeleteView):
         return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
 
 
+
 def get_checklist_tasks(request, checklist_id):
     checklist = get_object_or_404(Checklist, id=checklist_id)
     tasks = checklist.listitem_set.all()
@@ -133,6 +140,23 @@ def get_checklist_tasks(request, checklist_id):
             'edit_url': f"{request.scheme}://{request.get_host()}/checklists/{task.checklist.id}/edit-task/{task.id}/",
         })
     return JsonResponse({'tasks': task_data})    
+
+#@login_required
+def user_detail(request):
+    return render(request, 'users/user_detail.html', {'user': request.user})
+
+
+#@login_required
+def edit_user(request):
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_detail')  # Redirect to the user detail page
+    else:
+        form = UserEditForm(instance=request.user)  # Pre-fill with the current user's data
+    return render(request, 'users/edit_user.html', {'form': form})
+
 
 
 #mailer
