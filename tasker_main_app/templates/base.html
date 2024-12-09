@@ -26,6 +26,7 @@
 
       <nav>
         <ul>
+          <a href="/"> Home</a>
           <a href="/checklists">My Checklists</a>
           <a href="{% url 'checklist-create' %}">Create a Checklist</a>
           {% if user.is_authenticated %}
