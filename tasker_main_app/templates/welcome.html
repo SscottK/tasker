@@ -1,8 +1,98 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/welcome.css' %}" />
+{% endblock %}
 
 {% block content %}
-  <h1>Welcome to Tasker!</h1>
-  <p>Tasker is a simple task management app that helps you stay organized and focused.</p>
-  <p>Sign up now to start creating and managing your tasks!</p>
-  <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
+
+<h1>Welcome to Tasker {{ user.username }}!</h1>
+<p>Tasker is a simple task management app that helps you stay organized and focused.</p>
+<p>Sign up now to start creating and managing your tasks!</p>
+    
+{% if user.is_authenticated %}
+    <a href="{% url 'user_detail' %}">My Profile</a>
+    <a href="{% url 'logout' %}">Log Out</a>
+{% else %}
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+
+<div class="container">
+
+    <div class="checklists">
+        <h2>Checklists</h2>
+        <ul id="checklist-list" class="no-bullets">
+            {% for checklist in checklists %}
+            
+                <a href="#" class="checklist-name" data-checklist-id="{{ checklist.id }}">
+                    {{ checklist.list_name }}
+                </a><br>
+                <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
+                <p> Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }} </p>  
+            
+            {% empty %}
+                <li>No checklists available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+            
+    <div class="tasks">
+        <h3>Tasks</h3>
+        <p>Select a checklist to view the tasks.</p>
+        <div id="task-details"></div>
+    </div>
+</div>         
+
+<script>
+    document.querySelectorAll('.checklist-name').forEach(function(checklistLink) {
+        checklistLink.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Get the ID of the checklist
+            const checklistId = checklistLink.getAttribute('data-checklist-id');
+            const taskDetailsDiv = document.getElementById('task-details'); // Task details section
+
+            // Clear the task details section before loading new tasks
+            taskDetailsDiv.innerHTML = '<p>Loading tasks...</p>';
+
+            // Fetch tasks for the selected checklist
+            fetch(`/checklists/${checklistId}/tasks/`)
+                .then(response => response.json())
+                .then(data => {
+                    taskDetailsDiv.innerHTML = ''; // Clear loading message
+
+
+                    // If no tasks exist for the checklist
+                    if (data.tasks.length === 0) {
+                        taskDetailsDiv.innerHTML = '<p>No tasks found for this checklist.</p>';
+                        return;
+                    }
+
+                    const taskList = document.createElement('ul');
+
+                    // Loop through tasks and add them to the list
+                    data.tasks.forEach(task => {
+                        const taskItem = document.createElement('li');
+                        taskItem.innerHTML = `<strong>${task.step_name}</strong> 
+                                            - Status: ${task.status}
+                                            - Description: ${task.description}
+                                            - Priority: ${task.priority}
+                                            <a href="${task.edit_url}" class="btn edit">Edit Task</a>
+                                            <a href="${task.new_reminder_url}" class="btn add">Add Reminder</a>`;
+                        taskList.appendChild(taskItem);
+                    });
+
+                    taskDetailsDiv.appendChild(taskList); // Append task list to the task details div
+                })
+
+                .catch(error => {
+                    taskDetailsDiv.innerHTML = '<p>Error loading tasks. Please try again later.</p>';
+                    console.error('Error loading tasks', error);
+                });
+        });
+    });
+</script>
+
 {% endblock %}

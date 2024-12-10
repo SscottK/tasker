@@ -1,28 +1,25 @@
+{% extends 'base.html' %} 
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}
     <title>Checklists</title>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
 <section class="page-header">
   <h1>All Checklists</h1>
 </section>
 
-
-  
-
-<ul>
+<ul id="checklist-list">
     {% for checklist in checklists %}
-    <a href="{% url 'checklist-detail' checklist.id %}">{{ checklist.list_name }}</a>
+        <li>
+    <a href="{% url 'checklist-detail' checklist.id %}">
+        {{ checklist.list_name }}</a>
         <li> Owner: {{ checklist.owner }} - Status: {{ checklist.get_status_display }}</li>
+    </li>
     {% empty %}
         <li>No checklists available.</li>
     {% endfor %}
 </ul>
 
 <a href="{% url 'checklist-create' %}">Create a New Checklist</a>
-
-</body>
-</html>
+{% endblock %}

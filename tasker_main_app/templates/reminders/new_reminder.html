@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Create a reminder for "{{ list_item.step_name }}"</h1>
+<p>Please enter the date and time you would like to be reminded for this task. If the time you need is PM please add 12 to your time and put that in.</p>
+<p>Example input date: 2024-12-13 14:00</p>
+<p>Example output date: Dec. 13, 2024, 2 p.m.</p>
+<form method="POST">
+    {% csrf_token%}
+    {{ form.as_p }}
+    <button type="submit">Add reminder</button>
+</form>
+
+
+<a href="{% url 'checklist-detail' checklist.id %}">Back to Checklist</a>
+
+{% endblock %}

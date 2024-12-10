@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block content %}
+<section class="page-header">
+    <h1>My Reminders</h1>
+  </section>   
+  
+  <ul>
+      {% for reminder in reminders %}
+      <a href="">{{ reminder.list_item }}</a> - for {{ reminder.list_item.checklist }} 
+            <li>Reminder Date: {{ reminder.reminder_date }}
+                <a href="{% url 'delete-reminder' pk=reminder.id %}">Delete</a>
+            </li>
+      {% empty %}
+          <li>No reminders available.</li>
+      {% endfor %}
+  </ul>
+  
+  
+{% endblock %}
