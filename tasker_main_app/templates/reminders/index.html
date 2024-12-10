@@ -6,8 +6,10 @@
   
   <ul>
       {% for reminder in reminders %}
-      <a href="">{{ reminder.list_item }}</a>
-          <li> Reminder Date: {{ reminder.reminder_date }}</li>
+      <a href="">{{ reminder.list_item }}</a> - for {{ reminder.list_item.checklist }} 
+            <li>Reminder Date: {{ reminder.reminder_date }}
+                <a href="{% url 'delete-reminder' pk=reminder.id %}">Delete</a>
+            </li>
       {% empty %}
           <li>No reminders available.</li>
       {% endfor %}

@@ -227,7 +227,7 @@ def create_reminder(request,checklist_id, list_item_id):
 
 
 
-#Edit reminder view
+
 
 #reminders index view
 def reminder_index(request):
@@ -236,3 +236,10 @@ def reminder_index(request):
     return render(request, 'reminders/index.html', {'reminders': reminders})
 
 #Delete reminder view
+class ReminderConfirmDeleteView(DeleteView):
+    model = Reminder
+    template_name = 'reminders/reminder_confirm_delete.html'
+    success_url = '/reminders/'
+
+           
+        
