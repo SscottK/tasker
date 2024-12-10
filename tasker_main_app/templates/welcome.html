@@ -6,11 +6,10 @@
 {% endblock %}
 
 {% block content %}
-  <img src="{% static 'images/man-9058013_1280.png' %}" alt="Personal Assistant" style="width: 100px; height: auto; position: absolute; top: 0; right: 0; border-radius: 50%;">
+  <img src="{% static 'images/man-9058013_1280.png' %}" alt="Personal Assistant" style="width: 150px; height: auto; position: absolute; top: 0; right: 0; border-radius: 50%;">
 
   <h1>Welcome to Tasker {{ user.username }}!</h1>
-  <p>Tasker is a simple task management app that helps you stay organized and focused.</p>
-  <p>Sign up now to start creating and managing your tasks!</p>
+  <p>Here is your agenda for the day.</p>
     
   {% if user.is_authenticated %}
       <a href="{% url 'user_detail' %}">My Profile</a>
