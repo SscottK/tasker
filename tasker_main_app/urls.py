@@ -6,6 +6,7 @@ from .views import ChecklistCreate
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
   path('', views.home, name='welcome'),
   path('signup/', views.signup, name='signup'),
