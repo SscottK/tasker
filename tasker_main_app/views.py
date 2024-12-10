@@ -1,9 +1,12 @@
 #import reminder form
 
+from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm
 from django.contrib.auth import login 
-#from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -12,6 +15,7 @@ from .forms import ChecklistForm, ListitemForm, UserEditForm
 
 # Create your views here.
 
+@login_required
 def home(request):
     if 'logout' in request.GET:
         logout(request)
@@ -22,6 +26,7 @@ def home(request):
     else:
         checklists = []    
     return render(request, 'welcome.html', {'checklists': checklists})
+
 
 def signup(request):
     error_message = ''
@@ -48,7 +53,7 @@ def signup(request):
 
 
 #checklist create view
-class ChecklistCreate(CreateView):
+class ChecklistCreate(LoginRequiredMixin, CreateView):
     model = Checklist
     form_class = ChecklistForm
     template_name = 'main_app/checklist_form.html'
@@ -62,6 +67,7 @@ class ChecklistCreate(CreateView):
         return reverse_lazy('checklist-index')
 
 #view of all checklists
+@login_required
 def checklist_index(request):
     checklists = Checklist.objects.filter(owner=request.user)
 
@@ -69,10 +75,15 @@ def checklist_index(request):
 
 
 #view of one checklist
+@login_required
 def checklist_detail(request, checklist_id):
-    checklist = Checklist.objects.get(id=checklist_id)
-    tasks = checklist.listitem_set.all()
+    checklist = get_object_or_404(Checklist, id=checklist_id)
+    
 
+    if checklist.owner != request.user:
+        return HttpResponse('You are not authorized to view this checklist', status=403)
+
+    tasks = checklist.listitem_set.all()
     return render(request, 'checklists/detail.html', {
         'checklist': checklist,
         'tasks': tasks,
@@ -80,23 +91,42 @@ def checklist_detail(request, checklist_id):
 
 
 #edit checklist
-class ChecklistUpdate(UpdateView):
+class ChecklistUpdate(LoginRequiredMixin, UpdateView):
     model = Checklist
     fields = ['list_name', 'status']
     template_name = 'main_app/checklist_form.html'
+
+    def get_object(self, queryset=None):
+        checklist = super().get_object(queryset)
+    
+        if checklist.owner != self.request.user:
+            raise HttpResponse('You are not authorized to edit this checklist.')
+
+        return checklist
 
     def get_success_url(self) -> str:
         return reverse_lazy('checklist-detail', kwargs={'checklist_id': self.object.id})
 
 #delete checklist
-class ChecklistDelete(DeleteView):
+class ChecklistDelete(LoginRequiredMixin, DeleteView):
     model = Checklist
     success_url = '/checklists/'
     template_name = 'main_app/checklist_confirm_delete.html'
 
+    def get_object(self, queryset=None):
+        checklist = super().get_object(queryset)
+        if checklist.owner != self.request.user:
+            raise HttpResponse('You are not authorized to edit this checklist.')
+        
+        return checklist
 
+@login_required
 def add_task_to_checklist(request, checklist_id):
     checklist = get_object_or_404(Checklist, id=checklist_id)
+
+    if checklist.owner != request.user:
+            raise HttpResponse('You are not authorized to add tasks to this checklist.')
+
 
     if request.method == 'POST':
         form = ListitemForm(request.POST)
@@ -113,26 +143,42 @@ def add_task_to_checklist(request, checklist_id):
         'checklist': checklist,
     })    
 
-class ListitemUpdate(UpdateView):
+class ListitemUpdate(LoginRequiredMixin, UpdateView):
     model = Listitem
     form_class = ListitemForm
     template_name = 'checklists/edit_task.html'
+
+    def get_object(self, queryset=None):
+        task = super().get_object(queryset)
+
+        if task.checklist.owner != self.request.user:
+            raise HttpResponse('You do not have permission to edit this task.')
+        
+        return task
 
     def get_success_url(self):
         checklist_id = self.object.checklist.id
         return reverse_lazy('welcome')
 
 
-class ListitemDelete(DeleteView):
+class ListitemDelete(LoginRequiredMixin, DeleteView):
     model = Listitem
     template_name = 'main_app/task_confirm_delete.html'
+
+    def get_object(self, queryset=None):
+        task = super().get_object(queryset)
+
+        if task.checklist.owner != self.request.user:
+            raise HttpResponse('You do not have permission to delete this task.')
+        
+        return task
 
     def get_success_url(self):
         checklist_id = self.object.checklist.id
         return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
 
 
-
+@login_required
 def get_checklist_tasks(request, checklist_id):
     checklist = get_object_or_404(Checklist, id=checklist_id)
     tasks = checklist.listitem_set.all()
@@ -148,12 +194,12 @@ def get_checklist_tasks(request, checklist_id):
         })
     return JsonResponse({'tasks': task_data})    
 
-#@login_required
+@login_required
 def user_detail(request):
     return render(request, 'users/user_detail.html', {'user': request.user})
 
 
-#@login_required
+@login_required
 def edit_user(request):
     if request.method == 'POST':
         form = UserEditForm(request.POST, instance=request.user)
