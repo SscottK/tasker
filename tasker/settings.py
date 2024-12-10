@@ -103,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Login and Logout Redirection
 LOGIN_REDIRECT_URL = '/'  # Redirect to home page after login
 LOGIN_URL = '/login/'  # URL where users are redirected for login
-LOGOUT_REDIRECT_URL = '/login/'  # Redirect to home page after logout
+LOGOUT_REDIRECT_URL = '/'  # Redirect to home page after logout
 
 
 # Internationalization
