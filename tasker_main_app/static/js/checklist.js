@@ -1,7 +1,7 @@
 $(document).ready(function() {
     // When a checklist is clicked
     $('.checklist-link').click(function() {
-        var checklistId = $(this).data('id');
+        let checklistId = $(this).data('id');
 
         // Make an AJAX request to fetch the tasks for the selected checklist
         $.ajax({
@@ -15,8 +15,8 @@ $(document).ready(function() {
 
     // When the status dropdown is changed
     $('.task-status').change(function() {
-        var taskId = $(this).data('task-id');
-        var status = $(this).val();
+        let taskId = $(this).data('task-id');
+        let status = $(this).val();
 
         // Make an AJAX request to update the task status
         $.ajax({
@@ -31,4 +31,4 @@ $(document).ready(function() {
             }
         });
     });
-});
+})
