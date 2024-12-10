@@ -1,0 +1,17 @@
+{% extends 'base.html' %} 
+{% block content %}
+<section class="page-header">
+    <h1>My Reminders</h1>
+  </section>   
+  
+  <ul>
+      {% for reminder in reminders %}
+      <a href="">{{ reminder.list_item }}</a>
+          <li> Reminder Date: {{ reminder.reminder_date }}</li>
+      {% empty %}
+          <li>No reminders available.</li>
+      {% endfor %}
+  </ul>
+  
+  
+{% endblock %}

@@ -27,16 +27,17 @@
       <nav>
         <ul>
           <a href="/"> Home</a>
+          {% if user.is_authenticated %}
           <a href="/checklists">My Checklists</a>
           <a href="{% url 'checklist-create' %}">Create a Checklist</a>
-          {% if user.is_authenticated %}
+          <a href="{% url 'reminders-index' %}">Reminders</a>
+          
             <form id="logout-form" method="post" action="{% url 'logout' %}">
               {% csrf_token %}
               <button type="submit">Log out</button>
             </form>
-          {% else %}
-            <a href="{% url 'about' %}">About</a>
-            <a href="{% url 'home' %}">Login</a>
+          {% else %}            
+            <a href="{% url 'welcome' %}">Login</a>
             <a href="{% url 'signup' %}">Sign Up</a>
           {% endif %}
         </ul>
