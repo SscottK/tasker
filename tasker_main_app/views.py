@@ -10,8 +10,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Checklist, Listitem
-from .forms import ChecklistForm, ListitemForm, UserEditForm
+from .models import Checklist, Listitem, Reminder
+from .forms import ChecklistForm, ListitemForm, UserEditForm, ReminderForm
+from django.core.mail import send_mail
+import datetime
 
 # Create your views here.
 
@@ -191,6 +193,7 @@ def get_checklist_tasks(request, checklist_id):
             'description': task.description,
             'priority': "High" if task.high_priority else "Low",
             'edit_url': f"{request.scheme}://{request.get_host()}/checklists/{task.checklist.id}/edit-task/{task.id}/",
+            'new_reminder_url': f"{request.scheme}://{request.get_host()}/checklists/{task.checklist.id}/new-reminder/{task.id}"
         })
     return JsonResponse({'tasks': task_data})    
 
@@ -213,33 +216,83 @@ def edit_user(request):
 
 
 #mailer
-#try
-#get all reminders that need to be sent out in the next 30 mins
-#for all reminders
-#if reminder has not been sent
-#send reminder
-#mark reminder as sent
-#when done reply with ok it worked
-#except
-#if an error occurs reply with error
+def mailer(request):
+    
+    #try
+    try:
+        #get all reminders for tomorrow
+        #if reminder date equals today and reminder has not been sent
+        reminders = Reminder.objects.filter(reminder_date__lt=datetime.now(), reminder_sent=False)
+        now = datetime.datetime.now()
+        #for all reminders
+        for reminder in reminders:          
+            
+            #send reminder
+            send_mail(
+                f"Reminder for {reminder.list_item}",
+                f"This is a reminder for {reminder.list_item}, it is currently {reminder.status}.",
+                "tasker.reminders@gmail.com",
+                [request.user.email],
+                fail_silently=False
+            )
+            #mark reminder as sent
+            reminder.reminder_sent = True
+            #when done reply with ok it worked
+            print(f"Reminder sent to {request.user} for {reminder.list_item}")
+            return HttpResponse(status=200)
+    #except
+    except:
+        #if an error occurs reply with error
+        return HttpResponse(status=500)
 
 
-#Create reminder view
 #define create reaminder args. request, user_id, list_item_id
-#assign reminder form request to form variable
-#check to see if form is_valid()
-    #create new reminder variable but do not save anything to it
-    #new reminder = form.save(commit=false)
-    #Add user_id to new reminder
-    #Add list_item_id to new reminder
-    #save new reminder
-#redirect to list detail
+def create_reminder(request,checklist_id, list_item_id):
+    #get specific list item remindeer is being created for
+    list_item = get_object_or_404(Listitem, id=list_item_id)
+    checklist = get_object_or_404(Checklist, id=checklist_id) 
+    form = ReminderForm()
+   #check to see if request method is post
+    if request.method == 'POST':
+        #creat from instance
+        form = ReminderForm(request.POST)
+        #check to see if form is_valid()
+        if form.is_valid():            
+            #create new reminder variable but do not save anything to it
+            reminder = form.save(commit=False)            
+            #Add user_id to new reminder
+            reminder.user = request.user
+            #Add list_item_id to new reminder
+            reminder.list_item = list_item
+            #save new reminder
+            reminder.save()
+            #redirect to list detail
+            return redirect('checklist-detail', checklist_id=checklist.id)
+        else:
+            form = ReminderForm()
+
+    return render(request, 'reminders/new_reminder.html', {
+        'form': form,
+        'list_item': list_item,
+        'checklist': checklist
+    })
 
 
 
 
-#Edit reminder view
+
 
 #reminders index view
+def reminder_index(request):
+    reminders = Reminder.objects.filter(user=request.user)
+
+    return render(request, 'reminders/index.html', {'reminders': reminders})
 
 #Delete reminder view
+class ReminderConfirmDeleteView(DeleteView):
+    model = Reminder
+    template_name = 'reminders/reminder_confirm_delete.html'
+    success_url = '/reminders/'
+
+           
+        

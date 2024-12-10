@@ -25,7 +25,8 @@
         <li>
           <strong>{{ item.step_name }}</strong> - Status: {{ item.get_status_display }} - Description: {{ item.description }}
           - Priority: {{ item.high_priority|yesno:"High,Low" }}
-          <a href="{% url 'edit-task' checklist_id=checklist.id pk=item.id %}" class="btn edit">Edit Task</a>  
+          <a href="{% url 'edit-task' checklist_id=checklist.id pk=item.id %}" class="btn edit">Edit Task</a>
+          <a href="{% url 'new-reminder' checklist_id=checklist.id list_item_id=item.id %}">Add Reminder</a>   
         </li>
       {% empty %}
         <li>No tasks yet. Add a task!</li>

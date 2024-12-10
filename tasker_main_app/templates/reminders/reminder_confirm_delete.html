@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+
+
+
+{% block content %}
+<div class="page-header">
+  <h1>Delete Reminder?</h1>
+</div>
+
+<h2>Are you sure you want to delete reminder for {{ reminder.list_item }}?</h2>
+
+<form action="" method="post" class="form">
+  {% csrf_token %}
+  <a href="{% url 'reminders-index' %}" class="btn secondary">Cancel</a>
+  <button type="submit" class="btn danger">Delete!</button>
+</form>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Checklist, Listitem
+from .models import Checklist, Listitem, Reminder
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -39,3 +39,14 @@ class UserEditForm(forms.ModelForm):
         if User.objects.filter(email=email).exclude(username=self.instance.username).exists():
             raise forms.ValidationError("Email is already in use.")
         return email
+    
+class ReminderForm(forms.ModelForm):
+    class Meta:
+        model = Reminder
+        fields = ['reminder_date']
+        reminder_date = forms.DateTimeField(
+                input_formats=('%Y-%m-%d %H:%M'),
+                              
+                
+            )
+        
