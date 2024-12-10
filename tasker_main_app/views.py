@@ -2,7 +2,7 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm
-from django.contrib.auth import login
+from django.contrib.auth import login 
 #from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.http import HttpResponse, JsonResponse
@@ -13,7 +13,14 @@ from .forms import ChecklistForm, ListitemForm, UserEditForm
 # Create your views here.
 
 def home(request):
-    checklists = Checklist.objects.filter(owner=request.user)
+    if 'logout' in request.GET:
+        logout(request)
+        return redirect('login')
+    
+    if request.user.is_authenticated:
+        checklists = Checklist.objects.filter(owner=request.user)
+    else:
+        checklists = []    
     return render(request, 'welcome.html', {'checklists': checklists})
 
 def signup(request):
