@@ -24,11 +24,15 @@ def home(request):
         logout(request)
         return redirect('login')
     
+    checklists = []
     if request.user.is_authenticated:
         checklists = Checklist.objects.filter(owner=request.user)
-    else:
-        checklists = []    
-    return render(request, 'welcome.html', {'checklists': checklists})
+            
+    return render(request, 'home.html', {'checklists': checklists})
+
+
+def welcome(request):  
+    return render(request, 'welcome.html')
 
 
 def signup(request):
@@ -168,7 +172,7 @@ class ListitemUpdate(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         checklist_id = self.object.checklist.id
-        return reverse_lazy('welcome')
+        return reverse_lazy('home')
 
 
 class ListitemDelete(LoginRequiredMixin, DeleteView):
