@@ -28,7 +28,7 @@
 
       <nav>
         <ul>
-          <a href="/"> Home</a>
+          <a href="/home"> Home</a>
           {% if user.is_authenticated %}
           <a href="{% url 'checklist-create' %}">Create a Checklist</a>
           <a href="{% url 'reminders-index' %}">Reminders</a>
