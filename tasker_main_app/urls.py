@@ -8,12 +8,13 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-  path('', views.home, name='welcome'),
+  path('', views.welcome, name='welcome'),
+  path('home/', views.home, name='home'),
   path('signup/', views.signup, name='signup'),
   path('profile/', views.user_detail, name='user_detail'),
   path('edit/', views.edit_user, name='edit_user'),
   path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-  path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
+  path('logout/', LogoutView.as_view(), name='logout'),
 
   path('checklists/<int:checklist_id>/tasks/', views.get_checklist_tasks, name='get-checklist-tasks'),
 
