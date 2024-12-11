@@ -4,7 +4,7 @@ from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm
-from django.contrib.auth import login 
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -29,7 +29,8 @@ def home(request):
             
     return render(request, 'home.html', {'checklists': checklists})
 
-def welcome(request):
+
+def welcome(request):  
     return render(request, 'welcome.html')
 
 
