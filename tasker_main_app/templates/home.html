@@ -2,10 +2,11 @@
 {% load static %}
 
 {% block head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
 {% endblock %}
 
 {% block content %}
-  <img src="{% static 'css/images/man-9058013_1280.png' %}" alt="Personal Assistant" style="width: 150px; height: auto; position: absolute; top: 0; right: 0; border-radius: 50%;">
+  <img src="{% static '/images/man-9058013_1280.png' %}" alt="Personal Assistant" style="width: 150px; height: auto; position: absolute; top: 0; right: 0; border-radius: 50%;">
 
   <h1>Welcome to Tasker {{ user.username }}!</h1>
   <p>Here is your agenda for the day.</p>
