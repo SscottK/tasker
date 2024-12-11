@@ -4,13 +4,14 @@ from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm
-from django.contrib.auth import login 
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Checklist, Listitem, Reminder
+from .models import Checklist, Listitem, Reminder, List_user
+from django.contrib.auth.models import User
 from .forms import ChecklistForm, ListitemForm, UserEditForm, ReminderForm
 from django.core.mail import send_mail
 import datetime
@@ -71,10 +72,15 @@ class ChecklistCreate(LoginRequiredMixin, CreateView):
 #view of all checklists
 @login_required
 def checklist_index(request):
-    checklists = Checklist.objects.filter(owner=request.user)
+    owned_checklists = Checklist.objects.filter(owner=request.user)
+    shared_checklists = Checklist.objects.filter(
+        id__in=List_user.objects.filter(user=request.user).values_list('checklist_id', flat=True)
+    )
 
-    return render(request, 'checklists/index.html', {'checklists': checklists})
-
+    return render(request, 'checklists/index.html', {
+        'owned_checklists': owned_checklists,
+        'shared_checklists': shared_checklists,
+    })
 
 #view of one checklist
 @login_required
@@ -127,6 +133,8 @@ def add_task_to_checklist(request, checklist_id):
     checklist = get_object_or_404(Checklist, id=checklist_id)
 
     if checklist.owner != request.user:
+        list_user = List_user.objects.filter(user=request.user, checklist=checklist).first()
+        if not list_user or list_user.role != 'E':
             raise HttpResponse('You are not authorized to add tasks to this checklist.')
 
 
@@ -295,4 +303,32 @@ class ReminderConfirmDeleteView(DeleteView):
     success_url = '/reminders/'
 
            
-        
+# Share checklist view
+@login_required
+def share_checklist(request, checklist_id):
+    # get checklist
+    checklist = get_object_or_404(Checklist, id=checklist_id)
+    # verify user
+    if checklist.owner != request.user:
+        return HttpResponse('You are not authorized to share this checklist.', status=403)
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        # set permission, default 'Read Only'
+        role = request.POST.get('role', 'R')
+        try:
+        # look up user
+            user_to_share = User.objects.get(username=username)
+            # stop owner from sharing with self
+            if user_to_share == request.user:
+                return HttpResponse('You cannot share a checklist with yourself.', status=400)
+            # Check if the user is already assigned to the checklist
+            if List_user.objects.filter(user=user_to_share, checklist=checklist).exists():
+                return HttpResponse('User already has access to this checklist.', status=400)
+            # Create a new List_user entry
+            List_user.objects.create(user=user_to_share, checklist=checklist, role=role)
+            return redirect('checklist-detail', checklist_id=checklist.id)
+        except User.DoesNotExist:
+            return HttpResponse('User not found.', status=404)
+
+    return render(request, 'checklists/share_checklist.html', {'checklist': checklist})

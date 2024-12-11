@@ -14,9 +14,7 @@ urlpatterns = [
   path('edit/', views.edit_user, name='edit_user'),
   path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
   path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
-
   path('checklists/<int:checklist_id>/tasks/', views.get_checklist_tasks, name='get-checklist-tasks'),
-
   path('checklists/create/', views.ChecklistCreate.as_view(), name='checklist-create'),
   path('checklists/', views.checklist_index, name='checklist-index'),
   path('checklists/<int:checklist_id>/', views.checklist_detail, name='checklist-detail'),
@@ -27,5 +25,6 @@ urlpatterns = [
   path('checklists/<int:checklist_id>/delete-task/<int:pk>/', views.ListitemDelete.as_view(), name='delete-task'),
   path('reminders/', views.reminder_index, name='reminders-index'),
   path('checklists/<int:checklist_id>/new-reminder/<int:list_item_id>/', views.create_reminder, name='new-reminder'),
-  path('reminders/<int:pk>/delete-reminder/', views.ReminderConfirmDeleteView.as_view(), name='delete-reminder') 
+  path('reminders/<int:pk>/delete-reminder/', views.ReminderConfirmDeleteView.as_view(), name='delete-reminder'),
+  path('checklists/<int:checklist_id>/share/', views.share_checklist, name='share-checklist'),
  ]
