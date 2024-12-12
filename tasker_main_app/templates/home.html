@@ -22,28 +22,50 @@
 <div class="container">
 
     <div class="checklists">
-        <h2>Checklists</h2>
+        <h2>Your Checklists</h2>
         <ul id="checklist-list" class="no-bullets">
-            {% for checklist in checklists %}
-            
-                <a href="#" class="checklist-name" data-checklist-id="{{ checklist.id }}">
-                    {{ checklist.list_name }}
-                </a><br>
-                <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
-                <p> Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }} </p>  
-            
+            {% for checklist in owned_checklists %}
+                <li>
+                    <a href="#" class="checklist-name" data-checklist-id="{{ checklist.id }}">
+                        {{ checklist.list_name }}
+                    </a>
+                    <br>
+                    <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
+                    <p>Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }}</p>
+
+                    <!-- Share form for checklist owners -->
+                    {% if checklist.owner == user %}
+                    <a href="{% url 'share-checklist' checklist.id %}" class="btn secondary">Share This Checklist</a>
+                    {% endif %}
+                </li>
             {% empty %}
                 <li>No checklists available.</li>
             {% endfor %}
         </ul>
     </div>
-            
+<!--   
+    <div class="shared-checklists">
+        <h2>Shared Checklists</h2>
+        <ul id="shared-checklist-list">
+            {% for checklist in shared_checklists %}
+                <li>
+                    <a href="{% url 'checklist-detail' checklist.id %}">
+                        {{ checklist.list_name }}
+                    </a>
+                    <p>Owner: {{ checklist.owner }} - Status: {{ checklist.get_status_display }}</p>
+                </li>
+            {% empty %}
+                <li>No shared checklists available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+-->            
     <div class="tasks">
         <h3>Tasks</h3>
         <p>Select a checklist to view the tasks.</p>
         <div id="task-details"></div>
     </div>
-</div>         
+</div>
 
 <script>
     document.querySelectorAll('.checklist-name').forEach(function(checklistLink) {
