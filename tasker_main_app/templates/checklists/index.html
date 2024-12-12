@@ -1,4 +1,4 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block title %}
     <title>Checklists</title>
@@ -6,18 +6,43 @@
 
 {% block content %}
 <section class="page-header">
-  <h1>All Checklists</h1>
+    <h1>All Checklists</h1>
 </section>
 
+<h2>Your Checklists</h2>
 <ul id="checklist-list">
-    {% for checklist in checklists %}
+    {% for checklist in owned_checklists %}
         <li>
-    <a href="{% url 'checklist-detail' checklist.id %}">
-        {{ checklist.list_name }}</a>
-        <li> Owner: {{ checklist.owner }} - Status: {{ checklist.get_status_display }}</li>
-    </li>
+            <a href="{% url 'checklist-detail' checklist.id %}">
+                {{ checklist.list_name }}
+            </a>
+            <li>Owner: {{ checklist.owner }} - Status: {{ checklist.get_status_display }}</li>
+
+            {% if checklist.owner == request.user %}
+                <form method="post" action="{% url 'share-checklist' checklist.id %}" style="margin-top: 10px;">
+                    {% csrf_token %}
+                    <label for="username-{{ checklist.id }}">Share with Username:</label>
+                    <input type="text" name="username" id="username-{{ checklist.id }}" placeholder="Enter username" required>
+                    <button type="submit">Share</button>
+                </form>
+            {% endif %}
+        </li>
     {% empty %}
         <li>No checklists available.</li>
+    {% endfor %}
+</ul>
+
+<h2>Shared Checklists</h2>
+<ul id="shared-checklist-list">
+    {% for checklist in shared_checklists %}
+        <li>
+            <a href="{% url 'checklist-detail' checklist.id %}">
+                {{ checklist.list_name }}
+            </a>
+            <li>Owner: {{ checklist.owner }} - Status: {{ checklist.get_status_display }}</li>
+        </li>
+    {% empty %}
+        <li>No shared checklists available.</li>
     {% endfor %}
 </ul>
 
