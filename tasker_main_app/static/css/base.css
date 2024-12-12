@@ -167,26 +167,3 @@ body {
     text-decoration: none;
   }
   
-  .checklists a:hover, .tasks a:hover {
-    color: #FF6600; 
-  }
-  .checklists a.checklist-name {
-    color: #af0606; /* dark, rust orange color */
-    font-weight: bold;
-    text-decoration: none;
-  }
-  
-  .checklists a.btn.primary {
-    color: #160901; /* slightly darker shade of orange */
-    font-weight: bold;
-    text-decoration: none;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .checklists a.btn.primary:hover {
-    background-color: #af0606;
-    color: #FFFFFF;
-  }
