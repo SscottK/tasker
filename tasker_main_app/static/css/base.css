@@ -59,3 +59,101 @@ body {
   .nav-container a:hover {
     background-color: #f7f7f7;
   }
+
+  h1 {
+    font-size: 55px;
+  }
+  
+  .form-container {
+    width: 60%;
+    margin: 0 auto;
+  }
+  
+  .checklist-form {
+    width: 100%;
+  }
+  
+  .checklist-form td {
+    padding: 10px;
+  }
+  
+  .checklist-form input, .checklist-form select {
+    width: 100%;
+    padding: 8px;
+  }
+  
+  .checklist-form button.submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .checklist-form button.submit:hover {
+    background-color: #45a049;
+  }
+
+.checklist-container {
+    padding: 35px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.checklist-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn.warn {
+    background-color: #f0ad4e;
+    color: white;
+}
+
+.btn.danger {
+    background-color: #d9534f;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+.checklist-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .checklists {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tasks {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .checklist-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .checklists, .tasks {
+    flex-basis: 45%;
+  }

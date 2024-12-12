@@ -1,49 +1,40 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-
-{% block head %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}" />
-{% endblock %}
 
 {% block content %}
   <img src="{% static '/images/man-9058013_1280.png' %}" alt="Personal Assistant" style="width: 150px; height: auto; position: absolute; top: 0; right: 0; border-radius: 50%;">
 
   <h1>Welcome to Tasker {{ user.username }}!</h1>
-  <p>Here is your agenda for the day.</p>
+  <h2 style="font-size: 24px; font-weight: bold;">Here is your agenda for the day.</h2>
     
-  {% if user.is_authenticated %}
-      <a href="{% url 'user_detail' %}">My Profile</a>
-      <a href="{% url 'logout' %}">Log Out</a>
-  {% else %}
-      <a href="{% url 'login' %}">Log In</a>
-      <a href="{% url 'signup' %}">Sign Up</a>
-  {% endif %}
-
-  <div class="container">
-
-      <div class="checklists">
-          <h2>Checklists</h2>
-          <ul id="checklist-list" class="no-bullets">
-              {% for checklist in checklists %}
-              
-                  <a href="#" class="checklist-name" data-checklist-id="{{ checklist.id }}">
-                      {{ checklist.list_name }}
-                  </a><br>
-                  <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
-                  <p> Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }} </p>  
-              
-              {% empty %}
-                  <li>No checklists available.</li>
-              {% endfor %}
-          </ul>
-      </div>
+  <div class="container checklist-row">
+    <div class="checklists">
+      <h2>Checklists</h2>
+      <ul id="checklist-list" class="no-bullets">
+        {% for checklist in checklists %}
+          <a href="#" class="checklist-name" data-checklist-id="{{ checklist.id }}">
+            {{ checklist.list_name }}
+          </a><br>
+          <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
+          <p> Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }} </p>  
+        {% empty %}
+          <li>No checklists available.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="tasks">
+      <h3>Tasks</h3>
+      <p>Select a checklist to view the tasks.</p>
+      <div id="task-details"></div>
+    </div>
+  </div>
               
       <div class="tasks">
           <h3>Tasks</h3>
           <p>Select a checklist to view the tasks.</p>
           <div id="task-details"></div>
       </div>
-  </div>         
+  </div>                 
 
   <script>
       document.querySelectorAll('.checklist-name').forEach(function(checklistLink) {
