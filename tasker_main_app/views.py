@@ -122,7 +122,7 @@ class ChecklistUpdate(LoginRequiredMixin, UpdateView):
 #delete checklist
 class ChecklistDelete(LoginRequiredMixin, DeleteView):
     model = Checklist
-    success_url = '/checklists/'
+    success_url = '/home/'
     template_name = 'main_app/checklist_confirm_delete.html'
 
     def get_object(self, queryset=None):

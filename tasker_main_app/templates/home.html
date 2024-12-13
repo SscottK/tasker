@@ -14,7 +14,12 @@
         {% for checklist in checklists %}
           <a href="#" class="checklist-name" data-checklist-id="{{ checklist.id }}">
             {{ checklist.list_name }}
-          </a><br>
+          </a>
+          <div class="checklist-actions">
+            <a href="{% url 'checklist-update' checklist.id %}" class="btn warn">Edit</a>
+            <a href="{% url 'checklist-delete' checklist.id %}" class="btn danger">Delete</a>
+        </div>
+          <br>
           <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
           <p> Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }} </p>  
         {% empty %}
