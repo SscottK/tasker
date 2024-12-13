@@ -20,7 +20,6 @@
 {% endif %}
 
 <div class="container">
-
     <div class="checklists">
         <h2>Your Checklists</h2>
         <ul id="checklist-list" class="no-bullets">
@@ -33,9 +32,9 @@
                     <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
                     <p>Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }}</p>
 
-                    <!-- Share form for checklist owners -->
+                    <!-- Share link for checklist owners -->
                     {% if checklist.owner == user %}
-                    <a href="{% url 'share-checklist' checklist.id %}" class="btn secondary">Share This Checklist</a>
+                        <a href="{% url 'share-checklist' checklist.id %}" class="btn secondary">Share This Checklist</a>
                     {% endif %}
                 </li>
             {% empty %}
@@ -43,7 +42,8 @@
             {% endfor %}
         </ul>
     </div>
-<!--   
+</div>
+  
     <div class="shared-checklists">
         <h2>Shared Checklists</h2>
         <ul id="shared-checklist-list">
@@ -59,7 +59,7 @@
             {% endfor %}
         </ul>
     </div>
--->            
+           
     <div class="tasks">
         <h3>Tasks</h3>
         <p>Select a checklist to view the tasks.</p>

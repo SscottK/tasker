@@ -1,5 +1,5 @@
 from django import forms
-from .models import Checklist, Listitem, Reminder
+from .models import Checklist, Listitem, Reminder, List_user, ROLE_CHOICES
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -50,3 +50,19 @@ class ReminderForm(forms.ModelForm):
                 
             )
         
+class ShareChecklistForm(forms.Form):
+    username = forms.CharField(
+        label="Username",
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter username',
+            'class': 'form-control'
+        })
+    )
+    role = forms.ChoiceField(
+        label="Role",
+        choices=ROLE_CHOICES, 
+        widget=forms.Select(attrs={
+            'class': 'form-select'
+        })
+    )
