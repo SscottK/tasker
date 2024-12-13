@@ -24,13 +24,13 @@ def home(request):
         logout(request)
         return redirect('login')
     owned_checklists = Checklist.objects.filter(owner=request.user)
-    shared_checklists = Checklist.objects.filter(
-        id__in=List_user.objects.filter(user=request.user).values_list('checklist_id', flat=True)
-    )
+#    shared_checklists = Checklist.objects.filter(
+#    id__in=List_user.objects.filter(user=request.user).values_list('checklist_id', flat=True)
+#    )
 
     return render(request, 'home.html', {
         'owned_checklists': owned_checklists,
-        'shared_checklists': shared_checklists,
+#       'shared_checklists': shared_checklists,
     })
 
 def welcome(request):  

@@ -31,14 +31,14 @@
           <a href="{% url 'checklist-create' %}">Create a Checklist</a>
           <a href="{% url 'reminders-index' %}">Reminders</a>
           
-            <form id="logout-form" method="post" action="{% url 'logout' %}">
+         <!--   <form id="logout-form" method="post" action="{% url 'logout' %}">
               {% csrf_token %}
               <button type="submit">Log out</button>
             </form>
           {% else %}
             <a href="{% url 'login' %}">Login</a>
 
-            <!--  <a href="{% url 'signup' %}">Sign Up</a>  -->
+              <a href="{% url 'signup' %}">Sign Up</a>  -->
           {% endif %}
         </ul>
       </nav>
