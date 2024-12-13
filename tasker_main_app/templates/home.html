@@ -57,18 +57,24 @@
 
                       // Loop through tasks and add them to the list
                       data.tasks.forEach(task => {
-                          const taskItem = document.createElement('li');
-                          taskItem.innerHTML = `<strong>${task.step_name}</strong> 
-                                              - Status: ${task.status}
-                                              - Description: ${task.description}
-                                              - Priority: ${task.priority}
-                                              <a href="${task.edit_url}" class="btn edit">Edit Task</a>
-                                              <a href="${task.new_reminder_url}" class="btn add">Add Reminder</a>`;
-                          taskList.appendChild(taskItem);
-                      });
+  const taskItem = document.createElement('li');
+  taskItem.innerHTML = `<strong>${task.step_name}</strong> 
+                        - Status: ${task.status}
+                        - Description: ${task.description}
+                        - Priority: ${task.priority}`;
 
-                      taskDetailsDiv.appendChild(taskList); // Append task list to the task details div
-                  })
+  const linksDiv = document.createElement('div');
+  linksDiv.innerHTML = `
+    <a href="${task.edit_url}" class="btn edit">Edit Task</a>
+    <a href="${task.new_reminder_url}" class="btn add">Add Reminder</a>
+  `;
+  linksDiv.style.marginTop = '10px'; // add some margin to separate the links from the task details
+
+  taskItem.appendChild(linksDiv);
+  taskList.appendChild(taskItem);
+});
+
+taskDetailsDiv.appendChild(taskList); // Append task list to the task details div
 
                   .catch(error => {
                       taskDetailsDiv.innerHTML = '<p>Error loading tasks. Please try again later.</p>';
