@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -99,6 +100,7 @@ else:
             'NAME': 'tasker',
             # The value of 'NAME' should match the value of 'NAME' you replaced.
         }
+
     }
 
 

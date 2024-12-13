@@ -71,7 +71,7 @@ class ChecklistCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form) # Calls form.save() internally
     
     def get_success_url(self):
-        return reverse_lazy('checklist-index')
+        return reverse_lazy('home')
 
 #view of all checklists
 @login_required
