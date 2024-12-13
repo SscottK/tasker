@@ -259,31 +259,34 @@ def mailer(request):
 
 
 #define create reaminder args. request, user_id, list_item_id
+@login_required
 def create_reminder(request,checklist_id, list_item_id):
     #get specific list item remindeer is being created for
     list_item = get_object_or_404(Listitem, id=list_item_id)
-    checklist = get_object_or_404(Checklist, id=checklist_id) 
+    checklist = get_object_or_404(Checklist, id=checklist_id)
+    list_user = get_object_or_404(List_user, checklist=checklist_id) 
     form = ReminderForm()
+    if request.user == checklist.owner or request.user == list_user.user:
    #check to see if request method is post
-    if request.method == 'POST':
-        #creat from instance
-        form = ReminderForm(request.POST)
-        #check to see if form is_valid()
-        if form.is_valid():            
-            #create new reminder variable but do not save anything to it
-            reminder = form.save(commit=False)            
-            #Add user_id to new reminder
-            reminder.user = request.user
-            #Add list_item_id to new reminder
-            reminder.list_item = list_item
-            #save new reminder
-            reminder.save()
-            #redirect to list detail
-            return redirect('checklist-detail', checklist_id=checklist.id)
-        else:
-            form = ReminderForm()
+        if request.method == 'POST':
+            #creat from instance
+            form = ReminderForm(request.POST)
+            #check to see if form is_valid()
+            if form.is_valid():            
+                #create new reminder variable but do not save anything to it
+                reminder = form.save(commit=False)            
+                #Add user_id to new reminder
+                reminder.user = request.user
+                #Add list_item_id to new reminder
+                reminder.list_item = list_item
+                #save new reminder
+                reminder.save()
+                #redirect to list detail
+                return redirect('checklist-detail', checklist_id=checklist.id)
+            else:
+                form = ReminderForm()
 
-    return render(request, 'reminders/new_reminder.html', {
+        return render(request, 'reminders/new_reminder.html', {
         'form': form,
         'list_item': list_item,
         'checklist': checklist
@@ -295,13 +298,13 @@ def create_reminder(request,checklist_id, list_item_id):
 
 
 #reminders index view
-def reminder_index(request):
-    reminders = Reminder.objects.filter(user=request.user)
-
+@login_required
+def reminder_index(request):       
+    reminders = Reminder.objects.filter(user=request.user)    
     return render(request, 'reminders/index.html', {'reminders': reminders})
 
 #Delete reminder view
-class ReminderConfirmDeleteView(DeleteView):
+class ReminderConfirmDeleteView(LoginRequiredMixin, DeleteView):
     model = Reminder
     template_name = 'reminders/reminder_confirm_delete.html'
     success_url = '/reminders/'

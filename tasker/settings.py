@@ -9,14 +9,15 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
+
+from pathlib import Path
+
 from dotenv import load_dotenv
 import os
 import dj_database_url
 
 load_dotenv()
-
-from pathlib import Path
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -82,6 +83,7 @@ WSGI_APPLICATION = 'tasker.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
+
 if 'ON_HEROKU' in os.environ:
     DATABASES = {
         "default": dj_database_url.config(
@@ -96,8 +98,10 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'tasker',
+            # The value of 'NAME' should match the value of 'NAME' you replaced.
+        }
+
     }
-}
 
 
 # Password validation
