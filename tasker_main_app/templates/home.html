@@ -16,8 +16,8 @@
             {{ checklist.list_name }}
           </a>
           <div class="checklist-actions">
-            <a href="{% url 'checklist-update' checklist.id %}" class="btn warn">Edit</a>
-            <a href="{% url 'checklist-delete' checklist.id %}" class="btn danger">Delete</a>
+            <a href="{% url 'checklist-update' checklist.id %}" class="btn">Edit</a>
+            <a href="{% url 'checklist-delete' checklist.id %}" class="btn">Delete</a>
         </div>
           <br>
           <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
@@ -30,14 +30,14 @@
         {% endfor %}
       </ul>
     </div>
-</div>
 
-<div class="tasks">
-  <h3>Tasks</h3>
-  <p>Select a checklist to view the tasks.</p>
-  <div id="task-details"></div>
-</div> 
-  
+
+    <div class="tasks">
+        <h3>Tasks</h3>
+        <p>Select a checklist to view the tasks.</p>
+    <div id="task-details"></div>
+ 
+</div>  
     <div class="shared-checklists">
         <h2>Shared Checklists</h2>
         <ul id="shared-checklist-list">
@@ -53,6 +53,7 @@
             {% endfor %}
         </ul>
     </div>
+</div>    
            
               
 
