@@ -77,7 +77,7 @@ class ChecklistCreate(LoginRequiredMixin, CreateView):
 
 #view of all checklists
 @login_required
-def checklist_index(request):
+def checklist_index(request):#Do we need this?
     owned_checklists = Checklist.objects.filter(owner=request.user)
     shared_checklists = Checklist.objects.filter(
         id__in=List_user.objects.filter(user=request.user).values_list('checklist_id', flat=True)
@@ -90,7 +90,7 @@ def checklist_index(request):
 
 #view of one checklist
 @login_required
-def checklist_detail(request, checklist_id):
+def checklist_detail(request, checklist_id):#Do we need this?
     checklist = get_object_or_404(Checklist, id=checklist_id)
     
 

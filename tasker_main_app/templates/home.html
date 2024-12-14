@@ -21,7 +21,10 @@
         </div>
           <br>
           <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
-          <p> Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }} </p>  
+          <p> Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }} </p>
+          {% if checklist.owner == user %}
+            <a href="{% url 'share-checklist' checklist.id %}" class="btn secondary">Share This Checklist</a>
+          {% endif %}  
         {% empty %}
           <li>No checklists available.</li>
         {% endfor %}
