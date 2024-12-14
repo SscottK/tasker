@@ -93,9 +93,10 @@ def checklist_index(request):#Do we need this?
 @login_required
 def checklist_detail(request, checklist_id):#Do we need this?
     checklist = get_object_or_404(Checklist, id=checklist_id)
+    list_user = get_object_or_404(List_user, checklist=checklist_id)
     
 
-    if checklist.owner != request.user:
+    if checklist.owner != request.user or list_user.user != request.user:
         return HttpResponse('You are not authorized to view this checklist', status=403)
 
     tasks = checklist.listitem_set.all()
