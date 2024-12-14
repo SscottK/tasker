@@ -15,8 +15,7 @@
     <p>Updated: {{ checklist.updated_at }}</p>
 
     <div class="checklist-actions">
-        <a href="{% url 'checklist-update' checklist.id %}" class="btn warn">Edit</a>
-        <a href="{% url 'checklist-delete' checklist.id %}" class="btn danger">Delete</a>
+        
     </div>
 
     <h3>Tasks for "{{ checklist.list_name }}"</h3>
@@ -26,7 +25,7 @@
           <strong>{{ item.step_name }}</strong> - Status: {{ item.get_status_display }} - Description: {{ item.description }}
           - Priority: {{ item.high_priority|yesno:"High,Low" }}
           <ul>
-          <a href="{% url 'edit-task' checklist_id=checklist.id pk=item.id %}" class="btn edit">Edit Task</a>
+          
           <a href="{% url 'new-reminder' checklist_id=checklist.id list_item_id=item.id %}">Add Reminder</a> 
         </ul>  
         </li>
@@ -35,7 +34,7 @@
       {% endfor %}
     </ul>
 
-    <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
+    
 
       {% else %}
         <p>No checklist found.</p>

@@ -96,14 +96,18 @@ def checklist_detail(request, checklist_id):#Do we need this?
     list_user = get_object_or_404(List_user, checklist=checklist_id)
     
 
-    if checklist.owner != request.user or list_user.user != request.user:
+    # if (checklist.owner != request.user):
+    #     return HttpResponse('You are not authorized to view this checklist', status=403)
+    if (checklist.owner == request.user) or (list_user.user == request.user):
+        tasks = checklist.listitem_set.all()
+        return render(request, 'checklists/detail.html', {
+            'checklist': checklist,
+            'tasks': tasks,
+        })
+    
+    else:
         return HttpResponse('You are not authorized to view this checklist', status=403)
-
-    tasks = checklist.listitem_set.all()
-    return render(request, 'checklists/detail.html', {
-        'checklist': checklist,
-        'tasks': tasks,
-    })
+      
 
 
 #edit checklist
