@@ -156,7 +156,7 @@ def add_task_to_checklist(request, checklist_id):
             listitem = form.save(commit=False)
             listitem.checklist = checklist
             listitem.save()
-            return redirect('checklist-detail', checklist_id=checklist.id)
+            return redirect('home')
     else:
         form = ListitemForm()
 
