@@ -11,7 +11,7 @@
     <div class="checklists">
       <h2>Checklists</h2>
       <ul id="checklist-list" class="no-bullets">
-        {% for checklist in checklists %}
+        {% for checklist in owned_checklists %}
           <a href="#" class="checklist-name" data-checklist-id="{{ checklist.id }}">
             {{ checklist.list_name }}
           </a>
