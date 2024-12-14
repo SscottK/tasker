@@ -14,6 +14,7 @@ from .models import Checklist, Listitem, Reminder, List_user
 from django.contrib.auth.models import User
 from .forms import ChecklistForm, ListitemForm, UserEditForm, ReminderForm, ShareChecklistForm
 from django.core.mail import send_mail
+from django.contrib.admin.views.decorators import staff_member_required
 import datetime
 
 # Create your views here.
@@ -230,6 +231,7 @@ def edit_user(request):
 
 
 #mailer
+@staff_member_required
 def mailer(request):
     
     #try
@@ -306,6 +308,7 @@ def reminder_index(request):
     return render(request, 'reminders/index.html', {'reminders': reminders})
 
 #Delete reminder view
+
 class ReminderConfirmDeleteView(LoginRequiredMixin, DeleteView):
     model = Reminder
     template_name = 'reminders/reminder_confirm_delete.html'
