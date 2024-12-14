@@ -3,7 +3,7 @@
     justify-content: space-between;
     margin-top: 20px;
 }
-.tasks, .checklists {
+.tasks, .checklists, .shared-checklists {
     border: 2px solid #333;
 
 }    

@@ -115,17 +115,6 @@ body {
     border: none;
     cursor: pointer;
 }
-
-.btn.warn {
-    background-color: #f0ad4e;
-    color: white;
-}
-
-.btn.danger {
-    background-color: #d9534f;
-    color: white;
-}
-
 .btn:hover {
     opacity: 0.8;
 }
