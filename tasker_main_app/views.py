@@ -93,16 +93,21 @@ def checklist_index(request):#Do we need this?
 @login_required
 def checklist_detail(request, checklist_id):#Do we need this?
     checklist = get_object_or_404(Checklist, id=checklist_id)
+    list_user = get_object_or_404(List_user, checklist=checklist_id)
     
 
-    if checklist.owner != request.user:
+    # if (checklist.owner != request.user):
+    #     return HttpResponse('You are not authorized to view this checklist', status=403)
+    if (checklist.owner == request.user) or (list_user.user == request.user):
+        tasks = checklist.listitem_set.all()
+        return render(request, 'checklists/detail.html', {
+            'checklist': checklist,
+            'tasks': tasks,
+        })
+    
+    else:
         return HttpResponse('You are not authorized to view this checklist', status=403)
-
-    tasks = checklist.listitem_set.all()
-    return render(request, 'checklists/detail.html', {
-        'checklist': checklist,
-        'tasks': tasks,
-    })
+      
 
 
 #edit checklist
@@ -151,7 +156,7 @@ def add_task_to_checklist(request, checklist_id):
             listitem = form.save(commit=False)
             listitem.checklist = checklist
             listitem.save()
-            return redirect('checklist-detail', checklist_id=checklist.id)
+            return redirect('home')
     else:
         form = ListitemForm()
 
@@ -271,7 +276,7 @@ def create_reminder(request,checklist_id, list_item_id):
      
     form = ReminderForm()
     if request.user == checklist.owner:
-   #check to see if request method is post
+        #check to see if request method is post
         if request.method == 'POST':
             #creat from instance
             form = ReminderForm(request.POST)

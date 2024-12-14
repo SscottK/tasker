@@ -26,6 +26,7 @@ You can visit the app here https://tasker-checklist-app-7217cfc17dc0.herokuapp.c
 ##Future Plans
 -Ability for shared lists to have reminders created for their tasks
 -Completed designation
+-Completed Checklist Archive
 -Ability to sync with one of the main calendar apps
 -Leader boards to add friendly compatition. *(leaderboards would show stats like fastest project completion or average time)*
 -Mobile push notifications 
