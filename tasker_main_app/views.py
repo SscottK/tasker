@@ -12,7 +12,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Checklist, Listitem, Reminder, List_user
 from django.contrib.auth.models import User
-from .forms import ChecklistForm, ListitemForm, UserEditForm, ReminderForm
+from .forms import ChecklistForm, ListitemForm, UserEditForm, ReminderForm, ShareChecklistForm
 from django.core.mail import send_mail
 import datetime
 
@@ -23,13 +23,15 @@ def home(request):
     if 'logout' in request.GET:
         logout(request)
         return redirect('login')
-    
-    checklists = []
-    if request.user.is_authenticated:
-        checklists = Checklist.objects.filter(owner=request.user)
-            
-    return render(request, 'home.html', {'checklists': checklists})
+    owned_checklists = Checklist.objects.filter(owner=request.user)
+    shared_checklists = Checklist.objects.filter(
+    id__in=List_user.objects.filter(user=request.user).values_list('checklist_id', flat=True)
+    )
 
+    return render(request, 'home.html', {
+        'owned_checklists': owned_checklists,
+       'shared_checklists': shared_checklists,
+    })
 
 def welcome(request):  
     return render(request, 'welcome.html')
@@ -75,7 +77,7 @@ class ChecklistCreate(LoginRequiredMixin, CreateView):
 
 #view of all checklists
 @login_required
-def checklist_index(request):
+def checklist_index(request):#Do we need this?
     owned_checklists = Checklist.objects.filter(owner=request.user)
     shared_checklists = Checklist.objects.filter(
         id__in=List_user.objects.filter(user=request.user).values_list('checklist_id', flat=True)
@@ -88,7 +90,7 @@ def checklist_index(request):
 
 #view of one checklist
 @login_required
-def checklist_detail(request, checklist_id):
+def checklist_detail(request, checklist_id):#Do we need this?
     checklist = get_object_or_404(Checklist, id=checklist_id)
     
 
@@ -264,9 +266,9 @@ def create_reminder(request,checklist_id, list_item_id):
     #get specific list item remindeer is being created for
     list_item = get_object_or_404(Listitem, id=list_item_id)
     checklist = get_object_or_404(Checklist, id=checklist_id)
-    list_user = get_object_or_404(List_user, checklist=checklist_id) 
+     
     form = ReminderForm()
-    if request.user == checklist.owner or request.user == list_user.user:
+    if request.user == checklist.owner:
    #check to see if request method is post
         if request.method == 'POST':
             #creat from instance
@@ -282,7 +284,7 @@ def create_reminder(request,checklist_id, list_item_id):
                 #save new reminder
                 reminder.save()
                 #redirect to list detail
-                return redirect('checklist-detail', checklist_id=checklist.id)
+                return redirect('home')
             else:
                 form = ReminderForm()
 
@@ -313,29 +315,43 @@ class ReminderConfirmDeleteView(LoginRequiredMixin, DeleteView):
 # Share checklist view
 @login_required
 def share_checklist(request, checklist_id):
-    # get checklist
     checklist = get_object_or_404(Checklist, id=checklist_id)
-    # verify user
+
+    # Ensure the logged-in user is the owner
     if checklist.owner != request.user:
         return HttpResponse('You are not authorized to share this checklist.', status=403)
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        # set permission, default 'Read Only'
-        role = request.POST.get('role', 'R')
-        try:
-        # look up user
-            user_to_share = User.objects.get(username=username)
-            # stop owner from sharing with self
-            if user_to_share == request.user:
-                return HttpResponse('You cannot share a checklist with yourself.', status=400)
-            # Check if the user is already assigned to the checklist
-            if List_user.objects.filter(user=user_to_share, checklist=checklist).exists():
-                return HttpResponse('User already has access to this checklist.', status=400)
-            # Create a new List_user entry
-            List_user.objects.create(user=user_to_share, checklist=checklist, role=role)
-            return redirect('checklist-detail', checklist_id=checklist.id)
-        except User.DoesNotExist:
-            return HttpResponse('User not found.', status=404)
+        form = ShareChecklistForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            role = form.cleaned_data['role']
 
-    return render(request, 'checklists/share_checklist.html', {'checklist': checklist})
+            try:
+                user_to_share = User.objects.get(username=username)
+
+                # Prevent sharing with oneself
+                if user_to_share == request.user:
+                    return HttpResponse('You cannot share a checklist with yourself.', status=400)
+
+                # Check if already shared
+                if List_user.objects.filter(user=user_to_share, checklist=checklist).exists():
+                    return HttpResponse('User already has access to this checklist.', status=400)
+
+                # Share checklist
+                List_user.objects.create(user=user_to_share, checklist=checklist, role=role)
+                return redirect('share-checklist', checklist_id=checklist_id)  # Redirect back to the share-list page
+
+            except User.DoesNotExist:
+                return HttpResponse('User not found.', status=404)
+    else:
+        form = ShareChecklistForm()
+
+    # Fetch shared users to display
+    shared_users = List_user.objects.filter(checklist=checklist)
+
+    return render(request, 'checklists/share_checklist.html', {
+        'checklist': checklist,
+        'form': form,
+        'shared_users': shared_users,
+    })
