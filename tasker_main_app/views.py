@@ -270,31 +270,30 @@ def create_reminder(request,checklist_id, list_item_id):
     checklist = get_object_or_404(Checklist, id=checklist_id)
      
     form = ReminderForm()
-    if request.user == checklist.owner:
+    # if request.user == checklist.owner:
    #check to see if request method is post
-        if request.method == 'POST':
-            #creat from instance
-            form = ReminderForm(request.POST)
-            #check to see if form is_valid()
-            if form.is_valid():            
-                #create new reminder variable but do not save anything to it
-                reminder = form.save(commit=False)            
-                #Add user_id to new reminder
-                reminder.user = request.user
-                #Add list_item_id to new reminder
-                reminder.list_item = list_item
-                #save new reminder
-                reminder.save()
-                #redirect to list detail
-                return redirect('home')
-            else:
-                form = ReminderForm()
-
-        return render(request, 'reminders/new_reminder.html', {
-        'form': form,
-        'list_item': list_item,
-        'checklist': checklist
-    })
+    if request.method == 'POST':
+        #creat from instance
+        form = ReminderForm(request.POST)
+        #check to see if form is_valid()
+        if form.is_valid():            
+            #create new reminder variable but do not save anything to it
+            reminder = form.save(commit=False)            
+            #Add user_id to new reminder
+            reminder.user = request.user
+            #Add list_item_id to new reminder
+            reminder.list_item = list_item
+            #save new reminder
+            reminder.save()
+            #redirect to list detail
+            return redirect('home')
+        else:
+            form = ReminderForm()
+    return render(request, 'reminders/new_reminder.html', {
+    'form': form,
+    'list_item': list_item,
+    'checklist': checklist
+})
 
 
 
