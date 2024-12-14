@@ -15,16 +15,20 @@
           <a href="#" class="checklist-name" data-checklist-id="{{ checklist.id }}">
             {{ checklist.list_name }}
           </a>
+          <br>
+          <p> Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }} </p>
           <div class="checklist-actions">
+            <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
             <a href="{% url 'checklist-update' checklist.id %}" class="btn">Edit</a>
             <a href="{% url 'checklist-delete' checklist.id %}" class="btn">Delete</a>
-        </div>
-          <br>
-          <a href="{% url 'add-task' checklist.id %}" class="btn primary">Add a Task</a>
-          <p> Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }} </p>
+        
+          
+          
+          
           {% if checklist.owner == user %}
             <a href="{% url 'share-checklist' checklist.id %}" class="btn secondary">Share This Checklist</a>
-          {% endif %}  
+          {% endif %}
+        </div>  
         {% empty %}
           <li>No checklists available.</li>
         {% endfor %}
