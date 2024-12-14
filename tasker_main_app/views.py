@@ -264,9 +264,9 @@ def create_reminder(request,checklist_id, list_item_id):
     #get specific list item remindeer is being created for
     list_item = get_object_or_404(Listitem, id=list_item_id)
     checklist = get_object_or_404(Checklist, id=checklist_id)
-    list_user = get_object_or_404(List_user, checklist=checklist_id) 
+     
     form = ReminderForm()
-    if request.user == checklist.owner or request.user == list_user.user:
+    if request.user == checklist.owner:
    #check to see if request method is post
         if request.method == 'POST':
             #creat from instance
@@ -282,7 +282,7 @@ def create_reminder(request,checklist_id, list_item_id):
                 #save new reminder
                 reminder.save()
                 #redirect to list detail
-                return redirect('checklist-detail', checklist_id=checklist.id)
+                return redirect('home')
             else:
                 form = ReminderForm()
 
