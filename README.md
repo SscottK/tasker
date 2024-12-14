@@ -4,7 +4,7 @@
 
 
 ##About this app
-Tasker is an app designed to help you keep checklists for anything you can think of. The idead started out as a way for me to make a checklist to help me remeber the steps to getting an app started. It has become a little bit more than that now. With Tasker, not only can you create checklists and then add reminders for each item in your list, you can also share your lists directly with another user. The reminders are sent out via email, don't worry though, we wont send you any other messages besides the reminders. 
+Tasker is an app designed to help you keep checklists for anything you can think of. The idead started out as a way for us to make a checklist to help remeber the steps to getting an app started. It has become a little bit more than that now. With Tasker, not only can you create checklists and then add reminders for each item in your list, you can also share your lists directly with another user. The reminders are sent out via email, don't worry though, we wont send you any other messages besides the reminders. 
 
 ##Getting Started
 You can visit the app here https://tasker-checklist-app-7217cfc17dc0.herokuapp.com/
