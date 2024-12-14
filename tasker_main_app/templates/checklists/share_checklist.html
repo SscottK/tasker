@@ -1,19 +1,29 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Share Checklist</title>
+{% endblock %}
 
 {% block content %}
-  <h2>Share Checklist: {{ checklist.list_name }}</h2>
-  <form method="post">
+<h2>Share Checklist: {{ checklist.list_name }}</h2>
+<p>Owner: {{ checklist.owner }}</p>
+
+<form method="post" class="share-form">
     {% csrf_token %}
-    <label for="username">Share with Username:</label>
-    <input type="text" name="username" id="username" placeholder="Enter username" required>
+    {{ form.as_p }}
+    <button type="submit" class="btn primary">Share</button>
+</form>
 
-    <label for="role">Role:</label>
-    <select name="role" id="role">
-      <option value="R">Read Only</option>  
-      <option value="E">Editor</option>    
-    </select>
+<h3>Currently Shared With:</h3>
+<ul>
+    {% for list_user in shared_users %}
+        <li>
+            {{ list_user.user.username }} - {{ list_user.get_role_display }}
+        </li>
+    {% empty %}
+        <li>No users have access to this checklist.</li>
+    {% endfor %}
+</ul>
 
-    <button type="submit">Share</button>
-  </form>
-  <a href="{% url 'checklist-detail' checklist.id %}">Back to Checklist</a>
+<a href="{% url 'checklist-index' %}" class="btn secondary">Back to Checklists</a>
 {% endblock %}
