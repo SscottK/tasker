@@ -101,7 +101,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 .checklist-actions {
@@ -124,19 +124,15 @@ body {
     justify-content: space-between;
   }
 
-  .checklists {
+  .checklists, .shared-checklists, .tasks{       
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
   }
   
-  .tasks {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+  
   .checklist-row {
     display: flex;
     flex-direction: row;
@@ -153,6 +149,4 @@ body {
   .checklists a, .tasks a {
     color: #af0606;
     font-weight: bold;
-    text-decoration: none;
-  }
-  
+    text-decoration: none;x 
