@@ -29,11 +29,15 @@ body {
     width: 100%;
     margin-top: 20px;
   }
-  /* base.css */
-
-.nav-container {
-    text-align: center;
-    margin-top: 20px;
+  
+  .nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
     font-family: 'Open Sans', sans-serif;
   }
   
@@ -56,10 +60,11 @@ body {
     border-radius: 5px;
     transition: background-color 0.2s ease;
   }
+  
   .nav-container a:hover {
     background-color: #f7f7f7;
   }
-
+  
   h1 {
     font-size: 55px;
   }
@@ -95,43 +100,43 @@ body {
   .checklist-form button.submit:hover {
     background-color: #45a049;
   }
-
-.checklist-container {
+  
+  .checklist-container {
     padding: 35px 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-}
-
-.checklist-actions {
+  }
+  
+  .checklist-actions {
     margin-top: 20px;
     display: flex;
     gap: 10px;
-}
-
-.btn {
+  }
+  
+  .btn {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
-}
-.btn:hover {
+  }
+  
+  .btn:hover {
     opacity: 0.8;
-}
-.checklist-row {
+  }
+  
+  .checklist-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
-
+  
   .checklists, .shared-checklists, .tasks{       
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    
   }
-  
   
   .checklist-row {
     display: flex;
@@ -142,12 +147,93 @@ body {
   .checklists, .tasks {
     flex-basis: 45%;
   }
+  
   .tasks h3 {
     font-size: 24px;
     font-weight: bold;
   }
+  
   .checklists a, .tasks a {
     color: #af0606;
     font-weight: bold;
-    text-decoration: none;x 
+    text-decoration: none;
+  }
+  .content-wrapper {
+    padding-top: 200px;
+  }
+  .nav-and-logo {
+    position: relative;
+  }
+  
+  .nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .logo-container img {
+    display: block;
+    margin: 0 auto;
+    margin-top: 150px;
+  }
+  .centered {
+    text-align: center;
+  }
+  .task-buttons {
+    margin-top: 10px;
+  }
+  
+  .task-buttons a {
+    display: block;
+    margin-bottom: 20px;
+  }
+  
+  .task-buttons a:last-child {
+    margin-right: 0;
+  }
+  .listitem-actions button[type="submit"] {
+    background-color: transparent;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .listitem-actions button[type="submit"]:hover {
+    background-color: #f7f7f7;
+  }
+  
+  .listitem-actions a:last-child {
+    background-color: transparent;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .listitem-actions a:last-child:hover {
+    background-color: #f7f7f7;
+  }
+  
+  .listitem-actions .btn {
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .listitem-actions .btn:hover {
+    background-color: #f7f7f7;
   }

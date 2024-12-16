@@ -3,18 +3,18 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-<img src="{% static 'images/man-9058013_1280.png' %}" alt="Personal Assistant" style="width: 100px; height: auto; position: absolute; top: 0; right: 0; border-radius: 50%;">
 
 <section class="logo-container">
-    <img src="{% static 'images/favicon.ico' %}" alt="Tasker Logo" />
+  <img src="{% static 'images/favicon.ico' %}" alt="Tasker Logo" />
 </section>
+
 <section>
-    <form action="{% url 'home' %}" method="post" class="login">
-      <h1>Welcome to Tasker!</h1>
-      <h3>Tasker is your virtual personal assistant, helping you stay organized and focused. Create and manage checklists with tasks, and take control of your to-do list with ease.</h3>
-      {% csrf_token %} {{ form.as_p }}
-      <input type="hidden" name="next" value="{{ next }}" />      
-    </form>
-  </section>
-  
+  <form action="{% url 'home' %}" method="post" class="login">
+    <h1>Welcome to Tasker!</h1>
+    <h3>Tasker is your virtual personal assistant, helping you stay organized and focused. Create and manage checklists with tasks, and take control of your to-do list with ease.</h3>
+    {% csrf_token %} {{ form.as_p }}
+    <input type="hidden" name="next" value="{{ next }}" />      
+  </form>
+</section>
+
 {% endblock %}
