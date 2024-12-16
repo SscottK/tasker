@@ -15,8 +15,10 @@
 
 <div class="listitem-actions">
   {% if user == object.checklist.owner %}
-  <a href="{% url 'delete-task' checklist_id=object.checklist.id pk=object.id %}" class="btn danger">Delete</a></div>
- {% endif %}
+    <a href="{% url 'delete-task' checklist_id=object.checklist.id pk=object.id %}" class="btn danger nav-link">Delete</a>
+  {% endif %}
+  <a href="{% url 'checklist-detail' checklist_id=object.checklist.id %}" class="nav-link">Back to Checklist</a>
+</div>
 
-<a href="{% url 'checklist-detail' checklist_id=object.checklist.id %}">Back to Checklist</a>
 {% endblock %}
+

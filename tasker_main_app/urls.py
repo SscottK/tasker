@@ -17,8 +17,8 @@ urlpatterns = [
   path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
   path('checklists/<int:checklist_id>/tasks/', views.get_checklist_tasks, name='get-checklist-tasks'),
   path('checklists/create/', views.ChecklistCreate.as_view(), name='checklist-create'),
-  path('checklists/', views.checklist_index, name='checklist-index'),
-  path('checklists/<int:checklist_id>/', views.checklist_detail, name='checklist-detail'),
+  path('checklists/', views.checklist_index, name='checklist-index'),#Do we need this?
+  path('checklists/<int:checklist_id>/', views.checklist_detail, name='checklist-detail'),#do we need this?
   path('checklists/<int:pk>/update/', views.ChecklistUpdate.as_view(), name='checklist-update'),
   path('checklists/<int:pk>/delete/', views.ChecklistDelete.as_view(), name='checklist-delete'),
   path('checklists/<int:checklist_id>/add-task', views.add_task_to_checklist, name='add-task'),

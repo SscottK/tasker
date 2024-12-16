@@ -8,11 +8,11 @@
 <h2>Share Checklist: {{ checklist.list_name }}</h2>
 <p>Owner: {{ checklist.owner }}</p>
 
-<form method="post" class="share-form">
+<form method="post" class="share-form nav-container">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn primary">Share</button>
-</form>
+    <a href="#" class="btn edit" onclick="document.getElementById('myForm').submit()">Submit</a>
+  </form>
 
 <h3>Currently Shared With:</h3>
 <ul>
@@ -25,5 +25,7 @@
     {% endfor %}
 </ul>
 
-<a href="{% url 'checklist-index' %}" class="btn secondary">Back to Checklists</a>
-{% endblock %}
+<div class="nav-container">
+    <a href="{% url 'home' %}" class="btn secondary">Back to Checklists</a>
+  </div>
+  {% endblock %}

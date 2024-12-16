@@ -1,5 +1,5 @@
 body {
-    background-color: #96f3eb;
+    background-color: #acd1ce;
   }
   
   body {
@@ -29,11 +29,15 @@ body {
     width: 100%;
     margin-top: 20px;
   }
-  /* base.css */
-
-.nav-container {
-    text-align: center;
-    margin-top: 20px;
+  
+  .nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
     font-family: 'Open Sans', sans-serif;
   }
   
@@ -56,10 +60,11 @@ body {
     border-radius: 5px;
     transition: background-color 0.2s ease;
   }
+  
   .nav-container a:hover {
     background-color: #f7f7f7;
   }
-
+  
   h1 {
     font-size: 55px;
   }
@@ -77,7 +82,8 @@ body {
     padding: 10px;
   }
   
-  .checklist-form input, .checklist-form select {
+  .checklist-form input,
+  .checklist-form select {
     width: 100%;
     padding: 8px;
   }
@@ -95,75 +101,219 @@ body {
   .checklist-form button.submit:hover {
     background-color: #45a049;
   }
-
-.checklist-container {
+  
+  .checklist-container {
     padding: 35px 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-}
-
-.checklist-actions {
+    justify-content: space-evenly;
+  }
+  
+  .checklist-actions {
     margin-top: 20px;
     display: flex;
     gap: 10px;
-}
-
-.btn {
+  }
+  
+  .btn {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
-}
-
-.btn.warn {
-    background-color: #f0ad4e;
-    color: white;
-}
-
-.btn.danger {
-    background-color: #d9534f;
-    color: white;
-}
-
-.btn:hover {
-    opacity: 0.8;
-}
-.checklist-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .checklists {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
-  .tasks {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  .btn:hover {
+    opacity: 0.8;
   }
+  
   .checklist-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
   
-  .checklists, .tasks {
+  .checklists,
+  .shared-checklists,
+  .tasks {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .checklist-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .checklists,
+  .tasks {
     flex-basis: 45%;
   }
+  
   .tasks h3 {
     font-size: 24px;
     font-weight: bold;
   }
-  .checklists a, .tasks a {
-    color: #af0606;
+  
+  .checklists a,
+  .tasks a {
+    color: #a81c1c;
     font-weight: bold;
     text-decoration: none;
   }
+  
+  .content-wrapper {
+    padding-top: 200px;
+  }
+  
+  .nav-and-logo {
+    position: relative;
+  }
+  
+  .nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .logo-container img {
+    display: block;
+    margin: 0 auto;
+    margin-top: 150px;
+  }
+  
+  .centered {
+    text-align: center;
+  }
+  
+  .task-buttons {
+    margin-top: 10px;
+  }
+  
+  .task-buttons a {
+    display: block;
+    margin-bottom: 20px;
+  }
+  
+  .task-buttons a:last-child {
+    margin-right: 0;
+  }
+  
+  .nav-link {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: #f7f7f7;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    text-align: center;
+  }
+  
+  .btn.submit {
+    background: none;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .btn.submit:hover {
+    background-color: #f7f7f7;
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .listitem-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .listitem-actions a,
+  .listitem-actions .btn {
+    width: fit-content;
+    align-self: flex-start;
+  }
+  
+  
+  @media (max-width: 768px) {
+    body {
+      font-size: 16px; 
+      padding: 10px; 
+    }
+  
+    h1 {
+      font-size: 30px; 
+    }
+  
+    .nav-container {
+      flex-direction: column;
+      padding: 10px;
+    }
+  
+    .nav-container a {
+      padding: 8px 15px; 
+      font-size: 16px; 
+    }
+  
+    .login {
+      max-width: 100%; 
+      padding: 15px; 
+    }
+  
+    .checklist-form td,
+    .checklist-form input,
+    .checklist-form select {
+      width: 100%; 
+    }
+  
+    .checklist-container {
+      padding: 20px;
+    }
+  
+    .task-buttons {
+      width: 100%;
+    }
+  }
+  
+  
+  @media (max-width: 480px) {
+    .nav-container a {
+      font-size: 14px; 
+      padding: 10px 15px; 
+    }
+  
+    h1 {
+      font-size: 24px; 
+    }
+  }
+  
+  
+  
+  
+  
   

@@ -14,6 +14,7 @@ from .models import Checklist, Listitem, Reminder, List_user
 from django.contrib.auth.models import User
 from .forms import ChecklistForm, ListitemForm, UserEditForm, ReminderForm, ShareChecklistForm
 from django.core.mail import send_mail
+from django.contrib.admin.views.decorators import staff_member_required
 import datetime
 
 # Create your views here.
@@ -77,7 +78,7 @@ class ChecklistCreate(LoginRequiredMixin, CreateView):
 
 #view of all checklists
 @login_required
-def checklist_index(request):
+def checklist_index(request):#Do we need this?
     owned_checklists = Checklist.objects.filter(owner=request.user)
     shared_checklists = Checklist.objects.filter(
         id__in=List_user.objects.filter(user=request.user).values_list('checklist_id', flat=True)
@@ -90,18 +91,23 @@ def checklist_index(request):
 
 #view of one checklist
 @login_required
-def checklist_detail(request, checklist_id):
+def checklist_detail(request, checklist_id):#Do we need this?
     checklist = get_object_or_404(Checklist, id=checklist_id)
+    list_user = get_object_or_404(List_user, checklist=checklist_id)
     
 
-    if checklist.owner != request.user:
+    # if (checklist.owner != request.user):
+    #     return HttpResponse('You are not authorized to view this checklist', status=403)
+    if (checklist.owner == request.user) or (list_user.user == request.user):
+        tasks = checklist.listitem_set.all()
+        return render(request, 'checklists/detail.html', {
+            'checklist': checklist,
+            'tasks': tasks,
+        })
+    
+    else:
         return HttpResponse('You are not authorized to view this checklist', status=403)
-
-    tasks = checklist.listitem_set.all()
-    return render(request, 'checklists/detail.html', {
-        'checklist': checklist,
-        'tasks': tasks,
-    })
+      
 
 
 #edit checklist
@@ -119,7 +125,7 @@ class ChecklistUpdate(LoginRequiredMixin, UpdateView):
         return checklist
 
     def get_success_url(self) -> str:
-        return reverse_lazy('checklist-detail', kwargs={'checklist_id': self.object.id})
+        return reverse_lazy('home')
 
 #delete checklist
 class ChecklistDelete(LoginRequiredMixin, DeleteView):
@@ -150,7 +156,7 @@ def add_task_to_checklist(request, checklist_id):
             listitem = form.save(commit=False)
             listitem.checklist = checklist
             listitem.save()
-            return redirect('checklist-detail', checklist_id=checklist.id)
+            return redirect('home')
     else:
         form = ListitemForm()
 
@@ -230,6 +236,7 @@ def edit_user(request):
 
 
 #mailer
+@staff_member_required
 def mailer(request):
     
     #try
@@ -266,10 +273,10 @@ def create_reminder(request,checklist_id, list_item_id):
     #get specific list item remindeer is being created for
     list_item = get_object_or_404(Listitem, id=list_item_id)
     checklist = get_object_or_404(Checklist, id=checklist_id)
-    list_user = get_object_or_404(List_user, checklist=checklist_id) 
+     
     form = ReminderForm()
-    if request.user == checklist.owner or request.user == list_user.user:
-   #check to see if request method is post
+    if request.user == checklist.owner:
+        #check to see if request method is post
         if request.method == 'POST':
             #creat from instance
             form = ReminderForm(request.POST)
@@ -284,7 +291,7 @@ def create_reminder(request,checklist_id, list_item_id):
                 #save new reminder
                 reminder.save()
                 #redirect to list detail
-                return redirect('checklist-detail', checklist_id=checklist.id)
+                return redirect('home')
             else:
                 form = ReminderForm()
 
@@ -306,6 +313,7 @@ def reminder_index(request):
     return render(request, 'reminders/index.html', {'reminders': reminders})
 
 #Delete reminder view
+
 class ReminderConfirmDeleteView(LoginRequiredMixin, DeleteView):
     model = Reminder
     template_name = 'reminders/reminder_confirm_delete.html'
