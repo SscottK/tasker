@@ -1,5 +1,5 @@
 body {
-    background-color: #96f3eb;
+    background-color: #acd1ce;
   }
   
   body {
@@ -82,7 +82,8 @@ body {
     padding: 10px;
   }
   
-  .checklist-form input, .checklist-form select {
+  .checklist-form input,
+  .checklist-form select {
     width: 100%;
     padding: 8px;
   }
@@ -94,7 +95,7 @@ body {
     border: none;
     cursor: pointer;
     margin-top: 20px;
-    width: 100%; 
+    width: 100%;
   }
   
   .checklist-form button.submit:hover {
@@ -131,7 +132,9 @@ body {
     justify-content: space-between;
   }
   
-  .checklists, .shared-checklists, .tasks{       
+  .checklists,
+  .shared-checklists,
+  .tasks {
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 5px;
@@ -144,7 +147,8 @@ body {
     justify-content: space-between;
   }
   
-  .checklists, .tasks {
+  .checklists,
+  .tasks {
     flex-basis: 45%;
   }
   
@@ -153,14 +157,17 @@ body {
     font-weight: bold;
   }
   
-  .checklists a, .tasks a {
-    color: #af0606;
+  .checklists a,
+  .tasks a {
+    color: #a81c1c;
     font-weight: bold;
     text-decoration: none;
   }
+  
   .content-wrapper {
     padding-top: 200px;
   }
+  
   .nav-and-logo {
     position: relative;
   }
@@ -181,9 +188,11 @@ body {
     margin: 0 auto;
     margin-top: 150px;
   }
+  
   .centered {
     text-align: center;
   }
+  
   .task-buttons {
     margin-top: 10px;
   }
@@ -196,44 +205,115 @@ body {
   .task-buttons a:last-child {
     margin-right: 0;
   }
-  .listitem-actions button[type="submit"] {
-    background-color: transparent;
+  
+  .nav-link {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: #f7f7f7;
+  }
+  
+  .btn {
+    padding: 10px 20px;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
     cursor: pointer;
-    color: #000;
-    text-decoration: none;
-  }
-  
-  .listitem-actions button[type="submit"]:hover {
-    background-color: #f7f7f7;
-  }
-  
-  .listitem-actions a:last-child {
-    background-color: transparent;
-    padding: 10px 20px;
     border-radius: 5px;
     font-weight: bold;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    text-align: center;
+  }
+  
+  .btn.submit {
+    background: none;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .btn.submit:hover {
+    background-color: #f7f7f7;
     color: #000;
     text-decoration: none;
   }
   
-  .listitem-actions a:last-child:hover {
-    background-color: #f7f7f7;
+  .listitem-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   
+  .listitem-actions a,
   .listitem-actions .btn {
-    background-color: #f0f0f0;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #000;
-    text-decoration: none;
+    width: fit-content;
+    align-self: flex-start;
   }
   
-  .listitem-actions .btn:hover {
-    background-color: #f7f7f7;
+  
+  @media (max-width: 768px) {
+    body {
+      font-size: 16px; 
+      padding: 10px; 
+    }
+  
+    h1 {
+      font-size: 30px; 
+    }
+  
+    .nav-container {
+      flex-direction: column;
+      padding: 10px;
+    }
+  
+    .nav-container a {
+      padding: 8px 15px; 
+      font-size: 16px; 
+    }
+  
+    .login {
+      max-width: 100%; 
+      padding: 15px; 
+    }
+  
+    .checklist-form td,
+    .checklist-form input,
+    .checklist-form select {
+      width: 100%; 
+    }
+  
+    .checklist-container {
+      padding: 20px;
+    }
+  
+    .task-buttons {
+      width: 100%;
+    }
   }
+  
+  
+  @media (max-width: 480px) {
+    .nav-container a {
+      font-size: 14px; 
+      padding: 10px 15px; 
+    }
+  
+    h1 {
+      font-size: 24px; 
+    }
+  }
+  
+  
+  
+  
+  
+  
