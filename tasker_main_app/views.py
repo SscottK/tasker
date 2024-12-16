@@ -125,7 +125,7 @@ class ChecklistUpdate(LoginRequiredMixin, UpdateView):
         return checklist
 
     def get_success_url(self) -> str:
-        return reverse_lazy('checklist-detail', kwargs={'checklist_id': self.object.id})
+        return reverse_lazy('home')
 
 #delete checklist
 class ChecklistDelete(LoginRequiredMixin, DeleteView):

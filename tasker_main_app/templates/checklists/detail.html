@@ -23,11 +23,8 @@
       {% for item in checklist.listitem_set.all %}
         <li>
           <strong>{{ item.step_name }}</strong> - Status: {{ item.get_status_display }} - Description: {{ item.description }}
-          - Priority: {{ item.high_priority|yesno:"High,Low" }}
-          <ul>
-          
-          <a href="{% url 'new-reminder' checklist_id=checklist.id list_item_id=item.id %}">Add Reminder</a> 
-        </ul>  
+          - Priority: {{ item.high_priority|yesno:"High,Low" }}       
+          <p>Reminders for shared lists coming soon!!</p> 
         </li>
       {% empty %}
         <li>No tasks yet. Add a task!</li>
