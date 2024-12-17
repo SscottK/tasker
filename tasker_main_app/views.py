@@ -34,8 +34,11 @@ def home(request):
        'shared_checklists': shared_checklists,
     })
 
-def welcome(request):  
-    return render(request, 'welcome.html')
+def welcome(request):
+    if request.user:
+        return redirect('home')
+    else:  
+        return render(request, 'welcome.html')
 
 
 def signup(request):
