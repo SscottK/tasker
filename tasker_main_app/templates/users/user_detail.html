@@ -17,5 +17,9 @@
     <a href="{% url 'edit_user' %}" class="nav-link">Edit Profile</a>
     <a href="{% url 'home' %}" class="nav-link">Home</a>
   </div>
-  
+
+  <form method="get" action="{% url 'deactivate_account' %}" style="margin-top: 20px;">
+    <button type="submit" class="btn btn-danger">Deactivate Account</button>
+  </form>
+
 {% endblock %}

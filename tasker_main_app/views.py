@@ -363,3 +363,23 @@ def share_checklist(request, checklist_id):
         'form': form,
         'shared_users': shared_users,
     })
+
+
+# Deactivate account
+@login_required
+def deactivate_account(request):
+    
+    if request.method == 'POST':
+        # Mark the user as inactive
+        user = request.user
+        user.is_active = False
+        user.save()
+
+        # Log the user out after deactivating the account
+        from django.contrib.auth import logout
+        logout(request)
+        return redirect('goodbye')  
+    return render(request, 'users/deactivate_confirm.html')
+
+def goodbye_page(request):
+    return render(request, 'users/goodbye.html')
