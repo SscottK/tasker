@@ -200,7 +200,7 @@ class ListitemDelete(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         checklist_id = self.object.checklist.id
-        return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
+        return reverse_lazy('home')
 
 
 @login_required
