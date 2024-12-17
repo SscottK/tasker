@@ -1,5 +1,5 @@
 body {
-    background-color: #acd1ce;
+    background-color: #7dada9;
   }
   
   body {
@@ -139,17 +139,21 @@ body {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 500px;
+    height: 500px;
   }
+
+  hr {
+    border: 1px solid #ccc;
+    box-shadow: 100 0 10px rgba(0, 0, 0, 0.1);
+  } 
   
-  .checklist-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
   
   .checklists,
+  .shared-checklists,
   .tasks {
-    flex-basis: 45%;
+    flex-basis: 33%;
   }
   
   .tasks h3 {

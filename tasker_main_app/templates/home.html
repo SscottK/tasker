@@ -25,6 +25,7 @@
               {% endif %}
             </div>
             <p>Status: {{ checklist.get_status_display }} Owner: {{ checklist.owner }}</p>
+            <hr>
           </li>
         {% empty %}
           <li>No checklists available.</li>
@@ -95,7 +96,8 @@ data.tasks.forEach(task => {
                         <div class="task-buttons">
                           <a href="${task.edit_url}" class="btn edit">Edit Task</a>
                           <a href="${task.new_reminder_url}" class="btn add">Add Reminder</a>
-                        </div>`;
+                        </div>
+                        <hr>`;
   taskList.appendChild(taskItem);
 });
 
