@@ -29,8 +29,10 @@
     </tr>
   </table>
   <button type="submit" class="btn submit">Submit!
-    {% if object %} Update Checklist {% else %} Create Checklist {% endif %}
+   {% if object %} Update Checklist {% else %} Create Checklist {% endif %} 
   </button>
+  <a href="{% url 'home' %}" class="btn cancel">Cancel</a>
+
 </form>
 
 {% endblock %}
