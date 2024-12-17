@@ -1,5 +1,5 @@
 body {
-    background-color: #acd1ce;
+    background-color: #7dada9;
   }
   
   body {
@@ -139,17 +139,22 @@ body {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 500px;
+    height: 500px;
   }
+
+  hr {
+    border: 1px solid #ccc;
+    box-shadow: 100 0 10px rgba(0, 0, 0, 0.1);
+  } 
   
-  .checklist-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
   
   .checklists,
+  .shared-checklists,
   .tasks {
-    flex-basis: 45%;
+    flex-basis: 33%;
   }
   
   .tasks h3 {
@@ -198,7 +203,7 @@ body {
   }
   
   .task-buttons a {
-    display: block;
+    display: inline;
     margin-bottom: 20px;
   }
   
@@ -260,55 +265,62 @@ body {
   }
   
   
-  @media (max-width: 768px) {
-    body {
-      font-size: 16px; 
-      padding: 10px; 
-    }
-  
-    h1 {
-      font-size: 30px; 
-    }
-  
+  @media screen and (max-width: 768px) {
     .nav-container {
       flex-direction: column;
-      padding: 10px;
+      padding: 15px;
     }
   
-    .nav-container a {
-      padding: 8px 15px; 
-      font-size: 16px; 
+    .nav-container ul {
+      display: flex;
+      flex-direction: column;
     }
   
-    .login {
-      max-width: 100%; 
-      padding: 15px; 
+    .nav-container li {
+      margin-right: 0;
+      margin-bottom: 10px;
     }
   
-    .checklist-form td,
-    .checklist-form input,
-    .checklist-form select {
-      width: 100%; 
+    .form-container {
+      width: 90%;
     }
   
     .checklist-container {
       padding: 20px;
     }
   
-    .task-buttons {
-      width: 100%;
+    .checklist-actions {
+      flex-direction: column;
     }
-  }
   
+    .checklist-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   
-  @media (max-width: 480px) {
-    .nav-container a {
-      font-size: 14px; 
-      padding: 10px 15px; 
+    .checklists, .tasks {
+      flex-basis: 100%;
+      margin-bottom: 20px;
+    }
+  
+    .logo-container {
+      margin-top: 30px;
     }
   
     h1 {
-      font-size: 24px; 
+      font-size: 40px;
+    }
+  
+    .task-buttons a {
+      margin-bottom: 10px;
+    }
+  
+    .checklist-form input, .checklist-form select {
+      padding: 12px;
+    }
+  
+    .btn {
+      width: 100%;
     }
   }
   

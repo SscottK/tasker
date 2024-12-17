@@ -34,8 +34,11 @@ def home(request):
        'shared_checklists': shared_checklists,
     })
 
-def welcome(request):  
-    return render(request, 'welcome.html')
+def welcome(request):
+    if request.user:
+        return redirect('home')
+    else:  
+        return render(request, 'welcome.html')
 
 
 def signup(request):
@@ -197,7 +200,7 @@ class ListitemDelete(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         checklist_id = self.object.checklist.id
-        return reverse_lazy('checklist-detail', kwargs={'checklist_id': checklist_id})
+        return reverse_lazy('home')
 
 
 @login_required
