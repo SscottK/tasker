@@ -4,7 +4,7 @@
 
 
 ##About this app
-Tasker is a task and time management app designed to allow users to create and share lists of tasks which need to be completed. It allows users to assign priority to a task, and a status to each task so that other users can be aware of a tasks importance or if a task has been started or completed by someone else. It uses authorization to connect lists of tasks to the user who created them allowing that user to share their lists. Another feature is that a user can assign a 'read ony' or 'edit' status the a user with whom they have shared a list, allowing or preventing others from manipulating a checklist based on the creators needs. 
+Tasker is an app designed to help you keep checklists for anything you can think of. The idea started out as a way for us to make a checklist to help remeber the steps to getting an app started. It has become a little bit more than that now. With Tasker, not only can you create checklists and then add reminders for each item in your list, you can also share your lists directly with another user. The reminders are sent out via email, don't worry though, we wont send you any other messages besides the reminders. 
 
 ##Getting Started
 You can visit the app here https://tasker-checklist-app-7217cfc17dc0.herokuapp.com/
@@ -24,8 +24,9 @@ You can visit the app here https://tasker-checklist-app-7217cfc17dc0.herokuapp.c
 
 
 ##Future Plans
--styling /  layout improvements
 -Ability for shared lists to have reminders created for their tasks
 -Completed designation
+-Completed Checklist Archive
+-Ability to sync with one of the main calendar apps
+-Leader boards to add friendly compatition. *(leaderboards would show stats like fastest project completion or average time)*
 -Mobile push notifications 
--Ability to remove sharing from other users
