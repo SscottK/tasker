@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Goodbye, {{ user.username }}</h2>
+<p>Thanks for using <strong>Tasker</strong>. We're sorry to see you go.</p>
+
+<a href="{% url 'home' %}" class="btn btn-primary">Return to Home</a>
+{% endblock %}

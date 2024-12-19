@@ -28,4 +28,6 @@ urlpatterns = [
   path('checklists/<int:checklist_id>/new-reminder/<int:list_item_id>/', views.create_reminder, name='new-reminder'),
   path('reminders/<int:pk>/delete-reminder/', views.ReminderConfirmDeleteView.as_view(), name='delete-reminder'),
   path('checklists/<int:checklist_id>/share/', views.share_checklist, name='share-checklist'),
+  path('deactivate/', views.deactivate_account, name='deactivate_account'),
+  path('goodbye/', views.goodbye_page, name='goodbye'),
  ]
