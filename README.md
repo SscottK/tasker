@@ -22,6 +22,14 @@
 -styling / layout improvements 
 -Ability for shared lists to have reminders created for their tasks 
 -Completed designation 
--Mobile push notifications
+-Completed Checklist Archive
 -Ability to remove sharing from other users
--User searh / lookup for sharing
+-User search / lookup for sharing
+-Ability to sync with one of the main calendar apps
+-Leader boards to add friendly compatition. *(leaderboards would show stats like fastest project completion or average time)*
+-Mobile push notifications 
+-Friends list to help with sharing or messaging
+-Look into notifications - notifs are for reminders, priority and when a checklist is shared with a user - maybe add option for push (use the little guy to show us the notifications)
+-Messages - like internal email
+-Able to make a checklist public which makes it so that anyone can see the list in a read only format - be able to sort public lists by how many -saves it has
+-Able to copy public lists to your account so that you can edit and make a list your own
