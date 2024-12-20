@@ -263,6 +263,15 @@ body {
     width: fit-content;
     align-self: flex-start;
   }
+
+  summary::marker {
+    content: none;
+    
+  }
+
+  #task-details {
+    cursor: pointer;
+  }
   
   @media screen and (max-width: 768px) {
     .nav-container {

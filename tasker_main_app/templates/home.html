@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
+{% block head %}
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+{% endblock%}
 
 {% block content %}
   <img src="{% static '/images/man-9058013_1280.png' %}" alt="Personal Assistant" style="width: 150px; height: auto; position: absolute; top: 0; right: 0; border-radius: 50%;">
@@ -84,31 +87,33 @@
                           return;
                       }
 
-                      const taskList = document.createElement('ul');
+                      const taskList = document.createElement('div');
 
-                     // Loop through tasks and add them to the list
-data.tasks.forEach(task => {
-  const taskItem = document.createElement('li');
-  taskItem.innerHTML = `<strong>${task.step_name}</strong> 
-                        - Status: ${task.status}
-                        - Description: ${task.description}
-                        - Priority: ${task.priority}
-                        <div class="task-buttons">
-                          <a href="${task.edit_url}" class="btn edit">Edit Task</a>
-                          <a href="${task.new_reminder_url}" class="btn add">Add Reminder</a>
-                        </div>
-                        <hr>`;
-  taskList.appendChild(taskItem);
-});
+                      // Loop through tasks and add them to the list
+                      data.tasks.forEach(task => {
+                        const taskItem = document.createElement('div');
+                        taskItem.innerHTML = `<details>
+                                              <summary><strong>${task.step_name}</strong></summary> 
+                                              <strong>Status:</strong> ${task.status}<br>
+                                                <strong>Priority:</strong> ${task.priority}<br>
+                                              <strong>Description:</strong> ${task.description}<br>                                              
+                                              <div class="task-buttons">
+                                                <a href="${task.edit_url}" class="btn edit">Edit Task</a>
+                                                <a href="${task.new_reminder_url}" class="btn add">Add Reminder</a>
+                                              </div>
+                                              </details>
+                                              <hr>`;
+                        taskList.appendChild(taskItem);
+                      });
 
-// Append task list to the task details div
-taskDetailsDiv.appendChild(taskList);
+                      // Append task list to the task details div
+                      taskDetailsDiv.appendChild(taskList);
 
-// Catch any errors that occur during the fetch
-}).catch(error => {
-  taskDetailsDiv.innerHTML = '<p>Error loading tasks. Please try again later.</p>';
-  console.error('Error loading tasks', error);
-});
+                      // Catch any errors that occur during the fetch
+                      }).catch(error => {
+                        taskDetailsDiv.innerHTML = '<p>Error loading tasks. Please try again later.</p>';
+                        console.error('Error loading tasks', error);
+                      });
           });
       });
   </script>
